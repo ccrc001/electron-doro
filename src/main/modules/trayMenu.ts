@@ -1,5 +1,8 @@
-import {app, Tray, Menu, BrowserWindow } from 'electron'
-import icon from '../../../resources/icon.png?asset'
+import { app, Tray, Menu, BrowserWindow } from 'electron'
+import { join } from 'path'
+
+// 定义应用图标路径
+const icon = join(__dirname, '../../../resources/icon.png')
 let tray: Tray | null = null
 export default function createTray(mainWindow: BrowserWindow) {
   tray = new Tray(icon)
@@ -7,13 +10,13 @@ export default function createTray(mainWindow: BrowserWindow) {
     {
       label: '显示',
       click: () => {
-        mainWindow?.show()  // 使用可选链操作符
+        mainWindow?.show() // 使用可选链操作符
       }
     },
     {
       label: '隐藏',
       click: () => {
-        mainWindow?.hide()  // 使用可选链操作符
+        mainWindow?.hide() // 使用可选链操作符
       }
     },
     { type: 'separator' },
