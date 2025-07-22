@@ -8,7 +8,7 @@ out/
 # Environment files
 .env
 .env.*
-env
+# env  # 需要保留 env 目录用于构建配置
 
 # OS files
 .DS_Store
