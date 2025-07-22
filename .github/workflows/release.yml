@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*' # 当推送以 v 开头的标签时触发
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   release:
     runs-on: windows-latest
@@ -28,14 +32,37 @@ jobs:
       - name: Build and publish to GitHub Releases
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx electron-builder --win --publish always
+        run: |
+          echo "Starting electron-builder..."
+          echo "Current directory contents:"
+          dir
+          echo "Checking for electron-builder.yml:"
+          if (Test-Path "electron-builder.yml") {
+            echo "✅ electron-builder.yml found"
+            Get-Content "electron-builder.yml" | Select-Object -First 10
+          } else {
+            echo "❌ electron-builder.yml not found"
+          }
+          echo "Running electron-builder..."
+          npx electron-builder --win --config electron-builder.yml --publish always
 
-      - name: Upload artifacts
+      - name: Upload artifacts on success
         uses: actions/upload-artifact@v4
-        if: always()
+        if: success()
         with:
-          name: build-artifacts
+          name: release-artifacts
           path: |
             dist/*.exe
             dist/*.yml
             dist/*.blockmap
+
+      - name: Upload debug artifacts on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: debug-artifacts
+          path: |
+            dist/
+            out/
+            *.log
+            electron-builder.yml

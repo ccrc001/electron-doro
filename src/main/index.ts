@@ -1,7 +1,9 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+
+// 定义应用图标路径
+const icon = join(__dirname, '../../resources/icon.png')
 // import { createDockMenu } from './modules/dockMenu'
 
 import {
@@ -35,7 +37,7 @@ function createWindow(): void {
     height: 670,
     show: false, // 初始设置为 false，等待 ready-to-show 事件
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : { icon }),
+    icon,
     title: 'Doro爱吃欧润吉',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -259,7 +261,7 @@ app.on('open-url', (event, urlStr) => {
  */
 ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
   let childWindow = new BrowserWindow({
-    ...(process.platform === 'linux' ? { icon } : { icon }),
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
