@@ -37,6 +37,8 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    minWidth: 900,
+    minHeight: 670,
     show: false, // 初始设置为 false，等待 ready-to-show 事件
     autoHideMenuBar: true,
     icon,
@@ -92,7 +94,15 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('electron.app')
+  electronApp.setAppUserModelId('com.doro.app')
+
+  // 设置应用名称，不显示描述
+  app.setName('Doro爱吃欧润吉')
+
+  // 确保应用在任务栏中显示正确的名称
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('Doro爱吃欧润吉')
+  }
 
   // 初始化应用退出标志
   app.isQuitting = false
@@ -263,6 +273,12 @@ app.on('open-url', (event, urlStr) => {
  */
 ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
   let childWindow = new BrowserWindow({
+    width: 700,
+    height: 550,
+    minWidth: 700,
+    minHeight: 550,
+    show: false, // 初始设置为 false，等待 ready-to-show 事件
+    autoHideMenuBar: true,
     icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),

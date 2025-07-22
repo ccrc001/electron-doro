@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: Doro
+appId: com.doro.app
+productName: Doro爱吃欧润吉
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: my-Doro
+  executableName: 人~Doro要走了吗
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

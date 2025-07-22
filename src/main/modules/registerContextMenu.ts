@@ -11,6 +11,8 @@ export default function registerContextMenu(mainWindow: BrowserWindow) {
       { label: '粘贴', role: 'paste', enabled: params.editFlags.canPaste },
       { type: 'separator' },
       { label: '全选', role: 'selectAll' },
+      // 打开控制台
+      // { label: '打开控制台', role: 'toggleDevTools' },
       // 自定义功能
       {
         label: 'Greet',

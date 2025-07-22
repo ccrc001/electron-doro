@@ -1,7 +1,8 @@
 {
   "name": "doro",
   "version": "1.1.1",
-  "description": "An Electron application with Vue and TypeScript",
+  "description": "",
+  "productName": "Doro爱吃欧润吉",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",

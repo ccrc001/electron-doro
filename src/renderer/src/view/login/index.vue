@@ -235,6 +235,7 @@ onMounted(() => {
       <p>{{ $t('login.bottomTitle') }}</p>
       <p class="copyright">© 2024 Powered by Electron + Vue3 + Element Plus</p>
     </div>
+    <div style="height: 80px; width: 100%"></div>
   </div>
 </template>
 
@@ -245,6 +246,7 @@ onMounted(() => {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   flex-direction: column;
+
   overflow: hidden;
 }
 

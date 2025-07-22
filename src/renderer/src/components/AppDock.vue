@@ -52,14 +52,17 @@ const handleClick = (path: string) => {
 .dock-container {
   position: fixed;
   bottom: 10px;
-  left: 0;
+  left: 50%;
   right: 0;
+  // 居中
+  transform: translate(-50%, 0%);
   display: flex;
   justify-content: center;
   padding: 10px;
-  background: rgba(28, 28, 28, 0.7);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  // background: rgba(28, 28, 28, 0.7);
+  // backdrop-filter: blur(10px);
+  // border-top: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
 }
 

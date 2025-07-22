@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import AppDock from './components/AppDock.vue'
 import { useLoadingStore } from '@stores/useLoadingStore'
-import { onErrorCaptured, KeepAlive } from 'vue'
+import { onErrorCaptured } from 'vue'
 
 const loadingStore = useLoadingStore()
 
@@ -41,8 +41,10 @@ onErrorCaptured((error) => {
   display: none;
 }
 .app-container {
-  height: calc(100vh - 100px);
+  height: calc(100vh);
+  // padding-bottom: 100px;
   width: 100vw;
+  // box-sizing: border-box;
   overflow-y: auto;
   /* padding-bottom: 80px; 为 dock 栏留出空间 */
 }

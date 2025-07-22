@@ -45,16 +45,16 @@ export const Approutes: RouteRecordRaw[] = [
       label: 'router.demo'
     },
     component: () => import('../view/demo/index.vue')
-  },
-  {
-    path: '/mock-test',
-    name: 'mockTest',
-    meta: {
-      icon: 'Connection',
-      label: 'router.mock'
-    },
-    component: () => import('../view/mock-test/index.vue')
   }
+  // {
+  //   path: '/mock-test',
+  //   name: 'mockTest',
+  //   meta: {
+  //     icon: 'Connection',
+  //     label: 'router.mock'
+  //   },
+  //   component: () => import('../view/mock-test/index.vue')
+  // }
   // {
   //   path: '/keep-alive-test',
   //   name: 'keepAliveTest',

@@ -24,27 +24,28 @@
             :stroke-width="8"
           />
           <p class="progress-text">
-            {{ formatBytes(downloadProgress.transferred) }} / 
+            {{ formatBytes(downloadProgress.transferred) }} /
             {{ formatBytes(downloadProgress.total) }}
           </p>
         </div>
 
         <!-- 版本信息 -->
         <div v-if="currentVersion" class="version-info">
-          <p>当前版本: {{ currentVersion }}</p>
+          <!-- 展示最新version -->
+          <p>当前版本: {{ currentVersion.version }}</p>
         </div>
       </div>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="closeDialog" :disabled="isDownloading">
+          <el-button :disabled="isDownloading" @click="closeDialog">
             {{ isDownloading ? '下载中...' : '关闭' }}
           </el-button>
-          <el-button 
+          <el-button
             v-if="!isDownloading && !updateCompleted"
-            type="primary" 
-            @click="checkForUpdates"
+            type="primary"
             :loading="isChecking"
+            @click="checkForUpdates"
           >
             {{ isChecking ? '检查中...' : '检查更新' }}
           </el-button>
@@ -53,12 +54,7 @@
     </el-dialog>
 
     <!-- 更新按钮 -->
-    <el-button 
-      type="primary" 
-      size="small" 
-      @click="openUpdateDialog"
-      :loading="isChecking"
-    >
+    <el-button type="primary" size="small" :loading="isChecking" @click="openUpdateDialog">
       <el-icon><Refresh /></el-icon>
       检查更新
     </el-button>
@@ -130,6 +126,8 @@ const resetState = () => {
 const getCurrentVersion = async () => {
   try {
     currentVersion.value = await window.api.updater.getAppVersion()
+    console.log(currentVersion.value)
+    await checkForUpdates()
   } catch (error) {
     console.error('获取版本信息失败:', error)
   }
@@ -138,7 +136,7 @@ const getCurrentVersion = async () => {
 const checkForUpdates = async () => {
   isChecking.value = true
   updateStatus.value = '正在检查更新...'
-  
+
   try {
     const result = await window.api.updater.checkForUpdates()
     if (result) {
@@ -166,7 +164,7 @@ const formatBytes = (bytes: number): string => {
 // 监听更新状态
 const handleUpdateStatus = (status: string) => {
   updateStatus.value = status
-  
+
   if (status.includes('下载进度')) {
     isDownloading.value = true
     showProgress.value = true
@@ -193,7 +191,7 @@ onMounted(() => {
   // 监听更新状态
   window.api.updater.onUpdateStatus(handleUpdateStatus)
   window.api.updater.onDownloadProgress(handleDownloadProgress)
-  
+
   // 获取当前版本
   getCurrentVersion()
 })
@@ -242,8 +240,12 @@ onUnmounted(() => {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .status-text {
