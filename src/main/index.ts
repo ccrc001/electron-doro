@@ -1,9 +1,11 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+// const icon = join(__dirname, '../../../resources/icon.png')
+import icon from '../../resources/icon.png?asset'
 
 // 定义应用图标路径
-const icon = join(__dirname, '../../resources/icon.png')
+// const icon = join(__dirname, '../../resources/icon.png')
 // import { createDockMenu } from './modules/dockMenu'
 
 import {

@@ -1,6 +1,8 @@
 import { Menu, dialog, BrowserWindow, Notification } from 'electron'
+// import { join } from 'path'
+import icon from '../../../resources/icon.png?asset'
 // 定义应用图标路径
-const icon = join(__dirname, '../../../resources/icon.png')
+// const icon =  '../../../resources/icon.png'
 export default function registerContextMenu(mainWindow: BrowserWindow) {
   // 右键菜单
   mainWindow.webContents.on('context-menu', (_event, params) => {

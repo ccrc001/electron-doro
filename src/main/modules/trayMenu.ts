@@ -1,8 +1,9 @@
 import { app, Tray, Menu, BrowserWindow } from 'electron'
-import { join } from 'path'
+// import { join } from 'path'
 
+import icon from '../../../resources/icon.png?asset'
 // 定义应用图标路径
-const icon = join(__dirname, '../../../resources/icon.png')
+// const icon = join(__dirname, '../../../resources/icon.png')
 let tray: Tray | null = null
 export default function createTray(mainWindow: BrowserWindow) {
   tray = new Tray(icon)
