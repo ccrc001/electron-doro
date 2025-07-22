@@ -26,9 +26,9 @@ Thumbs.db
 
 # Development files (不需要推送到 GitHub)
 docs/
-resources/
-build/icons/
-build/entitlements.mac.plist
+# resources/  # 需要保留资源文件用于构建
+# build/icons/  # 需要保留图标文件用于构建
+# build/entitlements.mac.plist  # 需要保留用于 macOS 构建
 
 # 临时文件
 *.tmp
