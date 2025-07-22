@@ -43,9 +43,9 @@ function createWindow(): void {
     title: 'Doro爱吃欧润吉',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
+      sandbox: false
 
-      devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
+      // devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
     }
   })
 
@@ -268,9 +268,9 @@ ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false
 
-      devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
+      // devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
     }
   })
 
