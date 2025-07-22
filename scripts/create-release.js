@@ -169,7 +169,7 @@ try {
 
   console.log('✅ Release created successfully!')
   console.log(`🔗 GitHub Actions will automatically build and publish the release.`)
-  console.log(`📦 Check the Actions tab: https://github.com/ccrc001/diy-electron-doro/actions`)
+  console.log(`📦 Check the Actions tab: https://github.com/ccrc001/electron-doro/actions`)
   console.log('')
   console.log('📋 Files pushed to GitHub:')
   requiredFiles.forEach((file) => {
