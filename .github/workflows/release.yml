@@ -31,16 +31,48 @@ jobs:
           echo "Starting build..."
           npm run build
 
-      - name: Build and publish to GitHub Releases
+      - name: Check build output
+        run: |
+          echo "Checking if out directory exists..."
+          if (Test-Path "out") {
+            echo "✅ out directory exists"
+            Get-ChildItem -Path "out" -Recurse
+          } else {
+            echo "❌ out directory not found"
+          }
+
+      - name: Build with electron-builder
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx electron-builder --win --config --publish always
+        run: |
+          echo "Starting electron-builder..."
+          npx electron-builder --win --config electron-builder.yml --publish always
 
-      - name: Upload artifacts
+      - name: Check dist output
+        run: |
+          echo "Checking dist directory..."
+          if (Test-Path "dist") {
+            echo "✅ dist directory exists"
+            Get-ChildItem -Path "dist" -Recurse
+          } else {
+            echo "❌ dist directory not found"
+          }
+
+      - name: Upload artifacts on failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: build-artifacts
+          name: debug-artifacts
+          path: |
+            out/
+            dist/
+            *.log
+
+      - name: Upload release artifacts on success
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: release-artifacts
           path: |
             dist/*.exe
             dist/*.yml
