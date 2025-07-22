@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+out/
+
+# Environment files
+.env
+.env.*
+env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log*
+.eslintcache
+
+# Development files (不需要推送到 GitHub)
+docs/
+resources/
+build/icons/
+build/entitlements.mac.plist
+
+# 临时文件
+*.tmp
+*.temp
+
+# 测试覆盖率
+coverage/
+
+# 打包文件
+*.tgz
+*.tar.gz
+
+

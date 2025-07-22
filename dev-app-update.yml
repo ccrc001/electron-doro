@@ -1,0 +1,6 @@
+# 开发环境自动更新配置
+provider: github
+owner: ccrc001
+repo: electron-doro
+# 可选：指定更新缓存目录名称
+updaterCacheDirName: doro-updater
