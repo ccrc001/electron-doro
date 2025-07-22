@@ -82,7 +82,7 @@ const getRoomCodeByUrl = () => {
   if (roomCode) {
     ElMessage.success(roomCode)
   } else {
-    ElMessage.warning('浏览器输入')
+    ElMessage.warning('浏览器输入唤醒应用')
   }
 }
 </script>
