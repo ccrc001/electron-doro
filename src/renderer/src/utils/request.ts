@@ -4,7 +4,7 @@ import config from '@config/index'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLoadingStore } from '@stores/useLoadingStore'
-
+import { cacheUtils } from '@utils/cacheUtils'
 const baseURL = config.api
 const service = axios.create({
   baseURL,

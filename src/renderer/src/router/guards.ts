@@ -77,7 +77,7 @@ export const beforeEach = (_to, _from, next): void => {
 }
 // 全局后置导航守卫
 export const afterEach = (to, from): void => {
-  console.log(`Navigated from ${from.fullPath} to ${to.fullPath}`)
+  console.log(`Navigated from✅ ${from.fullPath} to ${to.fullPath}`)
   NProgress.done() // 关闭进度条
   const loadingStore = useLoadingStore()
   loadingStore.hideRouteLoading()

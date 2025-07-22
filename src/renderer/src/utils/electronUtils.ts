@@ -3,11 +3,11 @@
  * @param path 路由地址
  */
 export function openNewWindow(path: string, param: Object) {
-  let paramJsonStr = undefined
+  let paramJsonStr: string | undefined = undefined
   if (param) {
     paramJsonStr = JSON.stringify(param)
   }
-  window.electron.ipcRenderer.invoke('open-win', path, paramJsonStr)
+  window.electron.ipcRenderer.invoke('open-win', path, paramJsonStr || '')
 }
 
 const urlParamKey = 'urlParamData='
@@ -25,4 +25,23 @@ export const getParamFromUrl = function (): any {
 
 export const getRoomCode = function (): any {
   return window.electron.ipcRenderer.sendSync('get-roomCode')
+}
+
+/**
+ * 监听新窗口参数
+ * @param callback 接收参数的回调函数
+ */
+export const onWindowParams = function (
+  callback: (data: { route: string; params: any }) => void
+): void {
+  window.electron.ipcRenderer.on('window-params', (_, data) => {
+    callback(data)
+  })
+}
+
+/**
+ * 移除窗口参数监听器
+ */
+export const offWindowParams = function (): void {
+  window.electron.ipcRenderer.removeAllListeners('window-params')
 }

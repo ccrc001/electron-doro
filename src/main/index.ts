@@ -266,9 +266,9 @@ ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
     icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
-      nodeIntegration: true,
-      contextIsolation: false
+      sandbox: false
+      // nodeIntegration: true,
+      // contextIsolation: false
 
       // devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
     }
@@ -286,6 +286,10 @@ ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
     childWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#${route}${paramData}`)
   } else {
     childWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: route + paramData })
+    //  childWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    childWindow.webContents.on('did-finish-load', () => {
+      childWindow?.webContents.send('child-window-load', route, paramJsonStr)
+    })
   }
 
   childWindow.on('closed', () => {

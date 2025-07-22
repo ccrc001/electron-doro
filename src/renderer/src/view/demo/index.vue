@@ -73,6 +73,7 @@ const openWindow = () => {
   const param = {
     message: 'hello'
   }
+  // router.push(windowPath.value)
   openNewWindow(windowPath.value, param)
 }
 
