@@ -51,7 +51,7 @@ const handleSave = () => {
   // 更新主题
   themeUtils.themeChange(settings.value.theme)
 
-  ElMessage.success('设置已保存')
+  ElMessage.success('已保存')
 }
 </script>
 

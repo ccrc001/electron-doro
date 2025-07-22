@@ -23,57 +23,18 @@ jobs:
         run: npm ci
 
       - name: Build application
-        run: |
-          echo "Node.js version:"
-          node --version
-          echo "NPM version:"
-          npm --version
-          echo "Starting build..."
-          npm run build
+        run: npm run build
 
-      - name: Check build output
-        run: |
-          echo "Checking if out directory exists..."
-          if (Test-Path "out") {
-            echo "✅ out directory exists"
-            Get-ChildItem -Path "out" -Recurse
-          } else {
-            echo "❌ out directory not found"
-          }
-
-      - name: Build with electron-builder
+      - name: Build and publish to GitHub Releases
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Starting electron-builder..."
-          echo "Using config from package.json"
-          npx electron-builder --win --publish=always
+        run: npx electron-builder --win --publish always
 
-      - name: Check dist output
-        run: |
-          echo "Checking dist directory..."
-          if (Test-Path "dist") {
-            echo "✅ dist directory exists"
-            Get-ChildItem -Path "dist" -Recurse
-          } else {
-            echo "❌ dist directory not found"
-          }
-
-      - name: Upload artifacts on failure
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
-          name: debug-artifacts
-          path: |
-            out/
-            dist/
-            *.log
-
-      - name: Upload release artifacts on success
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: release-artifacts
+          name: build-artifacts
           path: |
             dist/*.exe
             dist/*.yml
