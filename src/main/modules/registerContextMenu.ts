@@ -1,5 +1,6 @@
 import { Menu, dialog, BrowserWindow, Notification } from 'electron'
-import icon from '../../../resources/icon.png?asset'
+// 定义应用图标路径
+const icon = join(__dirname, '../../../resources/icon.png')
 export default function registerContextMenu(mainWindow: BrowserWindow) {
   // 右键菜单
   mainWindow.webContents.on('context-menu', (_event, params) => {
@@ -22,7 +23,7 @@ export default function registerContextMenu(mainWindow: BrowserWindow) {
             })
             .then((response) => {
               console.log(response)
-         
+
               // 添加消息通知
               new Notification({
                 title: 'Message box',
