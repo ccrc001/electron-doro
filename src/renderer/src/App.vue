@@ -3,7 +3,7 @@
     <!-- 缓存指定组件 -->
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
-        <keep-alive :include="['Home', 'Login']">
+        <keep-alive :include="['Home']">
           <Suspense>
             <template #default>
               <component :is="Component" />
