@@ -3,7 +3,7 @@ import { Menu, dialog, BrowserWindow, Notification } from 'electron'
 import icon from '../../../resources/icon.png?asset'
 // 定义应用图标路径
 // const icon =  '../../../resources/icon.png'
-export default function registerContextMenu(mainWindow: BrowserWindow) {
+export default function registerContextMenu(mainWindow: BrowserWindow): void {
   // 右键菜单
   mainWindow.webContents.on('context-menu', (_event, params) => {
     const menu = Menu.buildFromTemplate([

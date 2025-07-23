@@ -101,12 +101,15 @@ const progressStatus = computed(() => {
   return undefined
 })
 
-// 方法
+// 打开更新窗口
 const openUpdateDialog = () => {
+  //打开更新窗口
   showUpdateDialog.value = true
+  // 获取当前版本
   getCurrentVersion()
 }
 
+// 关闭更新窗口
 const closeDialog = () => {
   if (!isDownloading.value) {
     showUpdateDialog.value = false
@@ -122,12 +125,12 @@ const resetState = () => {
   showProgress.value = false
   downloadProgress.value = { percent: 0, transferred: 0, total: 0 }
 }
-
+// 获取当前版本
 const getCurrentVersion = async () => {
   try {
     currentVersion.value = await window.api.updater.getAppVersion()
-    console.log(currentVersion.value)
-    await checkForUpdates()
+    // console.log(currentVersion.value)
+    // await checkForUpdates()
   } catch (error) {
     console.error('获取版本信息失败:', error)
   }
@@ -174,7 +177,7 @@ const handleUpdateStatus = (status: string) => {
     ElMessage.success('更新下载完成！')
   } else if (status.includes('错误')) {
     isDownloading.value = false
-    ElMessage.error('更新失败')
+    ElMessage.error('获取更新失败')
   }
 }
 

@@ -159,68 +159,12 @@ app.whenReady().then(async () => {
   })
 })
 
-/**pinia多窗口共享 */
-// ipcMain.handle(
-//   'pinia-store-change',
-//   (
-//     event,
-//     storeName: string,
-//     jsonStr: string,
-//     isResetVersion: boolean,
-//     storeUpdateVersion: number
-//   ) => {
-//     // 遍历window执行
-//     for (const currentWin of BrowserWindow.getAllWindows()) {
-//       const webContentsId = currentWin.webContents.id
-//       if (webContentsId !== event.sender.id && !currentWin.isDestroyed()) {
-//         currentWin.webContents.send(
-//           'pinia-store-set',
-//           storeName,
-//           jsonStr,
-//           isResetVersion,
-//           storeUpdateVersion
-//         )
-//       }
-//     }
-//   }
-// )
-
-/**语言修改同步 */
-// ipcMain.handle('lang:change', (event, lang) => {
-//   // 通知所有窗口同步更改语言
-//   for (const currentWin of BrowserWindow.getAllWindows()) {
-//     const webContentsId = currentWin.webContents.id
-//     console.log(webContentsId !== event.sender.id && !currentWin.isDestroyed())
-//     console.log(event.sender.id, webContentsId)
-
-//     // 这里排除掉发送通知的窗口
-//     if (webContentsId !== event.sender.id && !currentWin.isDestroyed()) {
-//       currentWin.webContents.send('lang:change', lang)
-//     }
-//   }
-// })
-
-// // 主题样式修改同步
-// ipcMain.handle('theme-style:change', (event, mode?: 'system' | 'light' | 'dark') => {
-//   if (mode && 'system,light,dark'.indexOf(mode) >= 0) {
-//     nativeTheme.themeSource = mode
-//   }
-//   // 通知所有窗口同步更改样式
-//   // 遍历window执行
-//   for (const currentWin of BrowserWindow.getAllWindows()) {
-//     const webContentsId = currentWin.webContents.id
-//     if (webContentsId !== event.sender.id && !currentWin.isDestroyed()) {
-//       currentWin.webContents.send('theme-style:changed', mode)
-//     }
-//   }
-// })
-
 //*************** 应用唤醒相关 ********************/
 // 注册协议
 const PROTOCOL = 'bcxlelectrondemo'
 /**添加注册表信息 用于浏览器启动客户端 */
-function registerScheme() {
-  const args = []
+function registerScheme(): void {
+  const args: string[] = []
   if (!app.isPackaged) {
     // 如果是开发阶段，需要把我们的脚本的绝对路径加入参数中
     args.push(join(process.argv[1]))
@@ -232,7 +176,7 @@ function registerScheme() {
 }
 
 // 处理浏览器打开应用的启动参数信息
-function handleArgv(argv: string[]) {
+function handleArgv(argv: string[]): void {
   const prefix = `${PROTOCOL}:`
   // 开发阶段，跳过前两个参数（`electron.exe .`）
   // 打包后，跳过第一个参数（`myapp.exe`）
@@ -244,7 +188,7 @@ function handleArgv(argv: string[]) {
 let roomCode = ''
 
 // 处理url打开应用的请求
-function handleUrl(url: string) {
+function handleUrl(url: string): void {
   // bcxlelectrondemo://joinRoom?roomCode=123
   const urlObj = new URL(url)
   const { searchParams } = urlObj

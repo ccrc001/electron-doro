@@ -1,11 +1,10 @@
 import { app, Tray, Menu, BrowserWindow } from 'electron'
 // import { join } from 'path'
-
-import icon from '../../../resources/icon.png?asset'
 // 定义应用图标路径
-// const icon = join(__dirname, '../../../resources/icon.png')
+import icon from '../../../resources/icon.png?asset'
+
 let tray: Tray | null = null
-export default function createTray(mainWindow: BrowserWindow) {
+export default function createTray(mainWindow: BrowserWindow): void {
   tray = new Tray(icon)
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -30,7 +29,7 @@ export default function createTray(mainWindow: BrowserWindow) {
     }
   ])
 
-  tray.setToolTip('摸鱼起来谁都找不到我')
+  tray.setToolTip('其实Doro并不喜欢吃欧润吉')
   tray.setContextMenu(contextMenu)
 
   // 点击托盘图标显示/隐藏窗口

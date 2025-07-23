@@ -1,11 +1,15 @@
 import { autoUpdater } from 'electron-updater'
 import { BrowserWindow, dialog, ipcMain } from 'electron'
 import { is } from '@electron-toolkit/utils'
+import log from 'electron-log'
 
 let mainWindow: BrowserWindow | null = null
 
+// 配置日志
+log.transports.file.level = 'info'
+log.transports.console.level = 'info'
 // 配置自动更新
-export function setupAutoUpdater(window: BrowserWindow) {
+export function setupAutoUpdater(window: BrowserWindow): void {
   mainWindow = window
 
   // 配置更新服务器
@@ -15,8 +19,7 @@ export function setupAutoUpdater(window: BrowserWindow) {
   }
 
   // 设置更新日志
-  autoUpdater.logger = require('electron-log')
-  autoUpdater.logger.transports.file.level = 'info'
+  autoUpdater.logger = log
 
   // 检查更新事件
   autoUpdater.on('checking-for-update', () => {
@@ -139,13 +142,13 @@ export function setupAutoUpdater(window: BrowserWindow) {
 }
 
 // 发送状态消息到渲染进程
-function sendStatusToWindow(text: string) {
+function sendStatusToWindow(text: string): void {
   console.log(text)
   mainWindow?.webContents.send('update-status', text)
 }
 
 // 启动时检查更新（延迟5秒）
-export function checkForUpdatesOnStartup() {
+export function checkForUpdatesOnStartup(): void {
   if (!is.dev) {
     setTimeout(() => {
       autoUpdater.checkForUpdatesAndNotify()
