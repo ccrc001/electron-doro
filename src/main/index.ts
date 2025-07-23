@@ -19,6 +19,7 @@ import {
   setupAutoUpdater,
   checkForUpdatesOnStartup
 } from './modules'
+import { windowManager, WindowConfig } from './utils/WindowManager'
 
 // 声明全局变量
 let mainWindow: BrowserWindow | null = null
@@ -216,48 +217,48 @@ app.on('open-url', (event, urlStr) => {
  * route=>路由地址  paramJsonStr => 序列化后的参数对象
  */
 ipcMain.handle('open-win', (_, route: string, paramJsonStr: string) => {
-  let childWindow = new BrowserWindow({
+  const params = paramJsonStr ? JSON.parse(paramJsonStr) : null
+
+  // 使用路由作为窗口的唯一标识
+  const windowKey = `window_${route.replace(/\//g, '_')}`
+
+  const config: WindowConfig = {
+    route,
     width: 700,
     height: 550,
     minWidth: 700,
     minHeight: 550,
-    show: false, // 初始设置为 false，等待 ready-to-show 事件
-    autoHideMenuBar: true,
-    icon,
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-      // nodeIntegration: true,
-      // contextIsolation: false
-
-      // devTools: process.env.NODE_ENV !== 'production' // 生产环境关闭浏览器控制台
-    }
-  })
-
-  // 当窗口准备好时显示
-  childWindow.on('ready-to-show', () => {
-    childWindow?.show() // 直接使用可选链操作符更简洁
-    childWindow?.setTitle('Doro爱摸鱼-子窗口')
-    // childWindow?.webContents.openDevTools()
-  })
-
-  const paramData = paramJsonStr ? '?urlParamData=' + paramJsonStr : ''
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    childWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#${route}${paramData}`)
-  } else {
-    childWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: route + paramData })
-    //  childWindow.loadFile(join(__dirname, '../renderer/index.html'))
-    childWindow.webContents.on('did-finish-load', () => {
-      childWindow?.webContents.send('child-window-load', route, paramJsonStr)
-    })
+    title: 'Doro爱摸鱼-子窗口',
+    params
   }
 
-  childWindow.on('closed', () => {
-    // 在窗口对象被关闭时，取消订阅所有与该窗口相关的事件
-    childWindow.removeAllListeners()
+  // 创建或获取窗口（如果已存在则获取焦点）
+  windowManager.createOrGetWindow(windowKey, config)
 
-    childWindow = null
-  })
+  // 返回窗口标识而不是窗口对象
+  return { windowKey, success: true }
+})
+
+/**
+ * 创建自定义窗口 - 支持完整配置
+ */
+ipcMain.handle('create-custom-window', (_, windowKey: string, config: WindowConfig) => {
+  windowManager.createOrGetWindow(windowKey, config)
+  return { windowKey, success: true }
+})
+
+/**
+ * 关闭指定窗口
+ */
+ipcMain.handle('close-window', (_, windowKey: string) => {
+  windowManager.closeWindow(windowKey)
+})
+
+/**
+ * 获取窗口是否存在
+ */
+ipcMain.handle('has-window', (_, windowKey: string) => {
+  return windowManager.hasWindow(windowKey)
 })
 
 // 修改窗口关闭行为

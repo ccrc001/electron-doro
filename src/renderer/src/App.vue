@@ -42,11 +42,10 @@ onErrorCaptured((error) => {
 }
 .app-container {
   height: calc(100vh);
-  // padding-bottom: 100px;
   width: 100vw;
-  // box-sizing: border-box;
+  box-sizing: border-box;
   overflow-y: auto;
-  /* padding-bottom: 80px; 为 dock 栏留出空间 */
+  // padding-bottom: 100px; /* 为 dock 栏留出空间 */
 }
 
 .fade-enter-active,

@@ -5,6 +5,7 @@ import config from '@config/index'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLoadingStore } from '@stores/useLoadingStore'
 import { cacheUtils } from '@utils/cacheUtils'
+import { log } from 'node:console'
 const baseURL = config.api
 const service = axios.create({
   baseURL,
@@ -18,9 +19,9 @@ service.interceptors.request.use(
     const loadingStore = useLoadingStore()
     loadingStore.show()
 
-    if (cacheUtils.get('TOKEN')) {
+    if (localStorage.getItem('TOKEN')) {
       // 如果有token，则在请求头中添加Authorization字段
-      config.headers['Authorization'] = cacheUtils.get('TOKEN') || ''
+      config.headers['Authorization'] = localStorage.getItem('TOKEN') || ''
       // 这里可以根据实际情况添加其他请求头
       // 比如 content-type 等
       // config.headers['Content-Type'] = 'application/json'
@@ -44,11 +45,14 @@ service.interceptors.response.use(
     loadingStore.hide()
 
     const { code, msg } = response.data
+    console.log(response.data)
+
     // 如果响应状态码为200，则返回数据
     if (code === 200) {
       // 这里可以根据实际情况处理响应数据
       // 比如统一处理错误码等
-      ElMessage.success(msg)
+
+      // ElMessage.success(response.data.data.msg)
 
       return response.data
     }

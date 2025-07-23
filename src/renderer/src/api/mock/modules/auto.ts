@@ -71,7 +71,8 @@ export default [
       return {
         code: 200,
         data: {
-          token
+          token,
+          msg: '用户登录成功'
         }
       }
     }

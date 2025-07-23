@@ -53,7 +53,9 @@ const handleLogin = async () => {
     // const res = await loginByJson(loginForm.value)
     const res = await getUserLogin(loginForm.value)
     if (res.code === 200 && res.data) {
-      // await userStore.setToken(res.data.token)
+      console.log(res)
+
+      await userStore.setToken(res.data.token)
       // 获取用户信息
       // await userStore.getUserInfo()
 
@@ -235,7 +237,7 @@ onMounted(() => {
       <p>{{ $t('login.bottomTitle') }}</p>
       <p class="copyright">© 2024 Powered by Electron + Vue3 + Element Plus</p>
     </div>
-    <div style="height: 80px; width: 100%"></div>
+    <!-- <div style="height: 80px; width: 100%"></div> -->
   </div>
 </template>
 
