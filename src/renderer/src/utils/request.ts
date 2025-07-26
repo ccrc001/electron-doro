@@ -47,14 +47,14 @@ service.interceptors.response.use(
     console.log(response.data)
 
     // 如果响应状态码为200，则返回数据
-    if (code === 200) {
-      // 这里可以根据实际情况处理响应数据
-      // 比如统一处理错误码等
+    // if (code === 200) {
+    // 这里可以根据实际情况处理响应数据
+    // 比如统一处理错误码等
 
-      // ElMessage.success(response.data.data.msg)
+    // ElMessage.success(response.data.data.msg)
 
-      return response.data
-    }
+    return response.data
+    // }
 
     // 响应数据为二进制流处理(Excel导出)
     if (response.data instanceof ArrayBuffer) {

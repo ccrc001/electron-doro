@@ -27,6 +27,13 @@ export function getUserLogin(data): Promise<AxiosResponse> {
   })
 }
 
+export function getPosts(): Promise<AxiosResponse> {
+  return request({
+    url: '/posts',
+    method: 'get'
+  })
+}
+
 // mock
 
 // 用户登陆

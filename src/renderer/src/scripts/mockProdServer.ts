@@ -24,5 +24,8 @@ if (import.meta.env.VITE_USE_MOCK === 'true') {
     console.log('🔧 [Auto] Development Mock Server handled by viteMockServe')
   }
 } else {
-  console.log('⚠️ [Warning] Mock service is disabled. VITE_USE_MOCK =', import.meta.env.VITE_USE_MOCK)
+  console.log(
+    '⚠️ [Warning] Mock service is disabled. VITE_USE_MOCK =',
+    import.meta.env.VITE_USE_MOCK
+  )
 }

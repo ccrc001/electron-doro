@@ -16,6 +16,7 @@ declare module 'vue' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -67,5 +68,8 @@ declare module 'vue' {
     SvgIcon: typeof import('./../../components/SvgIcon.vue')['default']
     Versions: typeof import('./../../components/Versions.vue')['default']
     WindowManager: typeof import('./../../components/WindowManager.vue')['default']
+  }
+  export interface GlobalDirectives {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

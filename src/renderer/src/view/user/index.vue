@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getUserList } from '@renderer/api/login'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { ElMessage, ElInputNumber } from 'element-plus'
 import { useRouter } from 'vue-router'
 // 定义组件名称，用于keep-alive缓存
 defineOptions({
@@ -17,14 +18,9 @@ interface User {
   active: boolean
 }
 
-// 模拟一秒的等待
-// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-// await sleep(1000) // 等待1秒
-const dataList = await getUserList()
-
 // 用户列表数据
-const userList = ref()
-userList.value = dataList.data
+const userList = ref<User[]>([])
+const loading = ref(false)
 
 // 搜索关键词
 const searchKey = ref(null)
@@ -65,9 +61,48 @@ const toggleUserStatus = (user: User) => {
   user.active = !user.active
 }
 
+// 获取用户列表数据
+const fetchUserList = async () => {
+  loading.value = true
+  try {
+    console.log('🔄 开始获取用户列表...')
+    const response = await getUserList()
+    console.log('✅ 获取用户列表成功:', response)
+
+    // 检查响应数据结构
+    if (response && response.data) {
+      // 处理两种可能的数据结构
+      let userData = []
+      if (Array.isArray(response.data.data)) {
+        userData = response.data.data
+      } else if (Array.isArray(response.data)) {
+        userData = response.data
+      }
+
+      userList.value = userData.map((item: any) => ({
+        id: item.id,
+        name: item.name || `用户${item.id}`,
+        age: item.age,
+        active: item.isActive !== undefined ? item.isActive : true
+      }))
+      console.log('📋 处理后的用户列表:', userList.value)
+      ElMessage.success(`用户列表加载成功，共 ${userList.value.length} 条数据`)
+    } else {
+      console.warn('⚠️ 响应数据格式异常:', response)
+      ElMessage.warning('用户列表数据格式异常')
+    }
+  } catch (error) {
+    console.error('❌ 获取用户列表失败:', error)
+    ElMessage.error('获取用户列表失败')
+  } finally {
+    loading.value = false
+  }
+}
+
 // 组件挂载时的操作
 onMounted(() => {
   console.log('用户列表组件已加载')
+  fetchUserList()
 })
 
 // 返回
@@ -87,7 +122,10 @@ const goBack = () => {
     </div>
 
     <!-- 用户列表 -->
-    <div class="user-list">
+    <div v-loading="loading" element-loading-text="正在加载用户列表..." class="user-list">
+      <div v-if="!loading && userList.length === 0" class="empty-state">
+        <el-empty description="暂无用户数据" />
+      </div>
       <el-card v-for="user in filteredUsers" :key="user.id" class="user-card">
         <!-- 非编辑状态 -->
         <template v-if="!editingUser || editingUser.id !== user.id">

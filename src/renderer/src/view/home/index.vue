@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
-
+import { getPosts } from '@api/login'
 // 定义组件名称，用于keep-alive缓存
 defineOptions({
   name: 'Home'
@@ -421,8 +421,10 @@ const sortItems = () => {
 }
 
 // 组件挂载
-onMounted(() => {
+onMounted(async () => {
   console.log('加载')
+  const data = await getPosts()
+  console.log(data)
 
   initDesktopItems()
 
@@ -452,7 +454,7 @@ onUnmounted(() => {
 })
 
 // 键盘事件
-const handleKeyDown = (event: KeyboardEvent) => { 
+const handleKeyDown = (event: KeyboardEvent) => {
   // Delete键删除选中项目
   if (event.key === 'Delete' && selectedItems.value.length > 0) {
     desktopItems.value = desktopItems.value.filter((item) => !selectedItems.value.includes(item.id))
