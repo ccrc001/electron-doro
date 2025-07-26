@@ -4,10 +4,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { Approutes } from '@router/routes'
 const router = useRouter()
 const route = useRoute()
-
 // 获取当前所有路由
 const routes = Approutes
-
 // dock 项配置
 const dockItems = ref()
 
@@ -24,7 +22,7 @@ const activeItem = computed(() => {
 })
 
 // 处理点击事件
-const handleClick = (path: string) => {
+const handleClick = (path: string): void => {
   router.push(path)
 }
 
@@ -32,12 +30,12 @@ const handleClick = (path: string) => {
 const isHidden = ref(false)
 
 // 切换 Dock 显示状态
-const toggleDock = () => {
+const toggleDock = (): void => {
   isHidden.value = !isHidden.value
 }
 
 // 键盘事件处理
-const handleKeydown = (event: KeyboardEvent) => {
+const handleKeydown = (event: KeyboardEvent): void => {
   // Ctrl + D 或 Cmd + D 切换 Dock
   if ((event.ctrlKey || event.metaKey) && event.key === 'd') {
     event.preventDefault()
@@ -61,7 +59,7 @@ onUnmounted(() => {
 
 <template>
   <div class="dock-container" :class="{ 'dock-hidden': isHidden }">
-    <div class="dock">
+    <div class="dock" :style="{ '--dock-items-count': dockItems.length }">
       <div
         v-for="item in dockItems"
         :key="item.id"
@@ -79,8 +77,8 @@ onUnmounted(() => {
     <!-- 隐藏/显示按钮 -->
     <div
       class="dock-toggle"
-      @click="toggleDock"
       :title="isHidden ? '点击展开 Dock (Ctrl+D)' : '点击隐藏 Dock (Ctrl+D)'"
+      @click="toggleDock"
     >
       <el-icon size="16">
         <i-ep-arrow-up v-if="!isHidden" />
@@ -129,6 +127,12 @@ onUnmounted(() => {
   backdrop-filter: blur(20px);
   pointer-events: auto; /* 恢复 dock 本身的点击事件 */
   transition: all 0.3s ease;
+
+  /* 根据 dock 项目数量动态设置宽度 */
+  /* 计算公式: 项目数量 * (图标+文字+padding) + 间距 + 容器padding */
+  width: calc(var(--dock-items-count, 6) * 56px + (var(--dock-items-count, 6) - 1) * 20px + 48px);
+  min-width: fit-content;
+  max-width: 90vw; /* 防止在小屏幕上过宽 */
 
   &:hover {
     transform: translateY(-2px);

@@ -1,8 +1,5 @@
 import { Menu, dialog, BrowserWindow, Notification } from 'electron'
-// import { join } from 'path'
 import icon from '../../../resources/icon.png?asset'
-// 定义应用图标路径
-// const icon =  '../../../resources/icon.png'
 export default function registerContextMenu(mainWindow: BrowserWindow): void {
   // 右键菜单
   mainWindow.webContents.on('context-menu', (_event, params) => {
@@ -12,7 +9,7 @@ export default function registerContextMenu(mainWindow: BrowserWindow): void {
       { type: 'separator' },
       { label: '全选', role: 'selectAll' },
       // 打开控制台
-      // { label: '打开控制台', role: 'toggleDevTools' },
+      { label: '打开控制台', role: 'toggleDevTools' },
       // 自定义功能
       {
         label: 'Greet',

@@ -4,8 +4,7 @@ import config from '@config/index'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLoadingStore } from '@stores/useLoadingStore'
-import { cacheUtils } from '@utils/cacheUtils'
-import { log } from 'node:console'
+// import { cacheUtils } from '@utils/cacheUtils'
 const baseURL = config.api
 const service = axios.create({
   baseURL,
@@ -65,7 +64,7 @@ service.interceptors.response.use(
     // ElMessage.error(msg || '系统出错');
     return Promise.reject(new Error(msg || 'Error'))
   },
-  (error: any) => {
+  (error) => {
     // 隐藏加载状态
     const loadingStore = useLoadingStore()
     loadingStore.hide()

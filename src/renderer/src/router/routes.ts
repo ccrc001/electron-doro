@@ -45,6 +45,15 @@ export const Approutes: RouteRecordRaw[] = [
       label: 'router.demo'
     },
     component: () => import('../view/demo/index.vue')
+  },
+  {
+    path: '/daily-food',
+    name: 'dailyFood',
+    meta: {
+      icon: 'Food',
+      label: 'router.dailyFood'
+    },
+    component: () => import('../view/daily-food/index.vue')
   }
   // {
   //   path: '/mock-test',

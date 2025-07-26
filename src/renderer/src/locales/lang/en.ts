@@ -5,7 +5,8 @@ export default {
     user: 'User',
     settings: 'Settings',
     demo: 'Debug',
-    mock: 'Mock Test'
+    mock: 'Mock Test',
+    dailyFood: 'Daily Food'
   },
   login: {
     confirmCancelText: 'cancel',

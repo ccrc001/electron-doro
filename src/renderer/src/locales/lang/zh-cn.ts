@@ -5,7 +5,8 @@ export default {
     user: '用户管理',
     settings: '设置',
     demo: '调试',
-    mock: 'Mock测试'
+    mock: 'Mock测试',
+    dailyFood: '每日美食'
   },
 
   login: {
