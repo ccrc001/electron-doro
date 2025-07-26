@@ -76,7 +76,14 @@ const isChecking = ref(false)
 const isDownloading = ref(false)
 const updateCompleted = ref(false)
 const showProgress = ref(false)
-const currentVersion = ref('')
+
+interface CurrentVersion {
+  version: string
+  build: number
+  releaseDate?: Date
+}
+
+const currentVersion = ref<CurrentVersion>()
 
 const downloadProgress = ref({
   percent: 0,
@@ -105,7 +112,7 @@ const progressStatus = computed(() => {
 })
 
 // 打开更新窗口
-const openUpdateDialog = () => {
+const openUpdateDialog = (): void => {
   //打开更新窗口
   showUpdateDialog.value = true
   // 获取当前版本
@@ -113,14 +120,14 @@ const openUpdateDialog = () => {
 }
 
 // 关闭更新窗口
-const closeDialog = () => {
+const closeDialog = (): void => {
   if (!isDownloading.value) {
     showUpdateDialog.value = false
     resetState()
   }
 }
 
-const resetState = () => {
+const resetState = (): void => {
   updateStatus.value = '准备检查更新...'
   isChecking.value = false
   isDownloading.value = false
@@ -129,17 +136,17 @@ const resetState = () => {
   downloadProgress.value = { percent: 0, transferred: 0, total: 0 }
 }
 // 获取当前版本
-const getCurrentVersion = async () => {
+const getCurrentVersion = async (): Promise<void> => {
   try {
     currentVersion.value = await window.api.updater.getAppVersion()
-    // console.log(currentVersion.value)
+    console.log(currentVersion.value)
     // await checkForUpdates()
   } catch (error) {
     console.error('获取版本信息失败:', error)
   }
 }
 
-const checkForUpdates = async () => {
+const checkForUpdates = async (): Promise<void> => {
   isChecking.value = true
   updateStatus.value = '正在检查更新...'
 
@@ -168,7 +175,7 @@ const formatBytes = (bytes: number): string => {
 }
 
 // 监听更新状态
-const handleUpdateStatus = (status: string) => {
+const handleUpdateStatus = (status: string): void => {
   updateStatus.value = status
 
   if (status.includes('下载进度')) {
@@ -184,7 +191,7 @@ const handleUpdateStatus = (status: string) => {
   }
 }
 
-const handleDownloadProgress = (progress: any) => {
+const handleDownloadProgress = (progress: any): void => {
   downloadProgress.value = {
     percent: Math.round(progress.percent),
     transferred: progress.transferred,
