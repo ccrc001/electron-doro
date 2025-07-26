@@ -12,8 +12,18 @@
       <!-- 今日推荐 -->
       <div class="demo-section">
         <div class="section-header">
-          <el-icon><i-ep-star-filled /></el-icon>
-          <h3>今日特别推荐</h3>
+          <div class="header-left">
+            <el-icon><i-ep-star-filled /></el-icon>
+            <h3>今日特别推荐</h3>
+          </div>
+          <el-button
+            type="success"
+            size="small"
+            :icon="Refresh"
+            circle
+            title="刷新推荐"
+            @click="refreshRecommendations"
+          />
         </div>
         <div class="recommendation-cards">
           <div
@@ -75,7 +85,7 @@
               <el-option label="饮品" value="drink" />
               <el-option label="零食" value="snack" />
             </el-select>
-            <el-button type="primary" size="large" @click="generateRandom" :loading="isGenerating">
+            <el-button type="primary" size="large" :loading="isGenerating" @click="generateRandom">
               <el-icon><i-ep-magic-stick /></el-icon>
               {{ isGenerating ? '生成中...' : '随机推荐' }}
             </el-button>
@@ -120,9 +130,9 @@
             type="primary"
             size="small"
             :icon="Refresh"
-            @click="refreshWeekPlan"
             circle
             title="刷新本周计划"
+            @click="refreshWeekPlan"
           />
         </div>
         <div class="food-calendar">
@@ -178,10 +188,6 @@
           <h3>个性化设置</h3>
         </div>
         <div class="action-buttons">
-          <el-button type="success" size="large" @click="refreshRecommendations">
-            <el-icon><i-ep-refresh /></el-icon>
-            刷新推荐
-          </el-button>
           <el-button type="warning" size="large" @click="saveToFavorites">
             <el-icon><i-ep-star /></el-icon>
             保存收藏
@@ -421,18 +427,18 @@ const getTagType = (tag: string) => {
 }
 
 const refreshRecommendations = (): void => {
-  const breakfastOptions = ['燕麦粥套餐', '全麦吐司配牛油果', '小笼包配豆浆', '煎蛋饼配牛奶']
-  const lunchOptions = ['宫保鸡丁套餐', '意大利面', '日式拉面', '麻婆豆腐套餐']
-  const dinnerOptions = ['清蒸鲈鱼套餐', '蔬菜沙拉', '红烧肉套餐', '白切鸡套餐']
-  const drinkOptions = ['柠檬蜂蜜茶', '珍珠奶茶', '现磨咖啡', '鲜榨果汁']
+  // 使用食物数据库中的数据来生成更丰富的推荐
+  const breakfastFood = getRandomFood('breakfast')
+  const lunchFood = getRandomFood('lunch')
+  const dinnerFood = getRandomFood('dinner')
+  const drinkFood = getRandomFood('drink')
 
-  currentRecommendations.breakfast =
-    breakfastOptions[Math.floor(Math.random() * breakfastOptions.length)]
-  currentRecommendations.lunch = lunchOptions[Math.floor(Math.random() * lunchOptions.length)]
-  currentRecommendations.dinner = dinnerOptions[Math.floor(Math.random() * dinnerOptions.length)]
-  currentRecommendations.drink = drinkOptions[Math.floor(Math.random() * drinkOptions.length)]
+  currentRecommendations.breakfast = breakfastFood.name || '燕麦粥套餐'
+  currentRecommendations.lunch = lunchFood.name || '宫保鸡丁套餐'
+  currentRecommendations.dinner = dinnerFood.name || '清蒸鲈鱼套餐'
+  currentRecommendations.drink = drinkFood.name || '柠檬蜂蜜茶'
 
-  ElMessage.success('推荐已刷新！')
+  ElMessage.success('🎉 推荐已刷新！为您推荐了新的美食组合')
 }
 
 const saveToFavorites = (): void => {
