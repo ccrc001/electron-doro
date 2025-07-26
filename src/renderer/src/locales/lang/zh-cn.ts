@@ -2,7 +2,7 @@ export default {
   router: {
     home: '首页',
     login: '登录',
-    user: '用户管理',
+    article: '文章',
     settings: '设置',
     demo: '调试',
     mock: 'Mock测试',

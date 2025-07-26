@@ -20,13 +20,13 @@ export const Approutes: RouteRecordRaw[] = [
     component: () => import('../view/login/index.vue')
   },
   {
-    path: '/user',
-    name: 'user',
+    path: '/article',
+    name: 'article',
     meta: {
-      icon: 'User',
-      label: 'router.user'
+      icon: 'Postcard',
+      label: 'router.article'
     },
-    component: () => import('../view/user/index.vue')
+    component: () => import('../view/article/index.vue')
   },
   {
     path: '/settings',

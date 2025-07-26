@@ -2,7 +2,7 @@ export default {
   router: {
     home: 'Home',
     login: 'Login',
-    user: 'User',
+    article: 'Article',
     settings: 'Settings',
     demo: 'Debug',
     mock: 'Mock Test',

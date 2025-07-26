@@ -79,7 +79,6 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getPosts } from '@api/login'
 // 定义组件名称，用于keep-alive缓存
 defineOptions({
   name: 'Home'
@@ -423,8 +422,6 @@ const sortItems = () => {
 // 组件挂载
 onMounted(async () => {
   console.log('加载')
-  const data = await getPosts()
-  console.log(data)
 
   initDesktopItems()
 

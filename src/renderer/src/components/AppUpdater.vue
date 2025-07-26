@@ -7,6 +7,9 @@
       width="400px"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
+      :lock-scroll="false"
+      :modal="true"
+      :append-to-body="true"
     >
       <div class="update-content">
         <div class="update-status">
@@ -62,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Refresh, Download, Check, Warning } from '@element-plus/icons-vue'
 
@@ -207,6 +210,7 @@ onUnmounted(() => {
 
 <style scoped>
 .app-updater {
+  width: 100%;
   display: inline-block;
 }
 
@@ -281,5 +285,28 @@ onUnmounted(() => {
 
 .dialog-footer {
   text-align: right;
+}
+
+/* 防止弹框打开时页面偏移的全局样式 */
+:deep(.el-dialog__wrapper) {
+  /* 确保弹框不影响页面布局 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+}
+
+/* 防止 body 样式被修改导致的偏移 */
+:global(body.el-popup-parent--hidden) {
+  padding-right: 0 !important;
+  overflow: auto !important;
+}
+
+/* 或者使用更精确的方式 */
+:global(.el-popup-parent--hidden) {
+  padding-right: 0 !important;
+  overflow: auto !important;
 }
 </style>

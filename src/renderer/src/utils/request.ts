@@ -4,7 +4,7 @@ import config from '@config/index'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLoadingStore } from '@stores/useLoadingStore'
-// import { cacheUtils } from '@utils/cacheUtils'
+import { cacheUtils } from '@utils/cacheUtils'
 const baseURL = config.api
 const service = axios.create({
   baseURL,
@@ -18,12 +18,11 @@ service.interceptors.request.use(
     const loadingStore = useLoadingStore()
     loadingStore.show()
 
-    if (localStorage.getItem('TOKEN')) {
+    if (cacheUtils.get('TOKEN')) {
       // 如果有token，则在请求头中添加Authorization字段
-      config.headers['Authorization'] = localStorage.getItem('TOKEN') || ''
+      config.headers['Authorization'] = cacheUtils.get('TOKEN') || ''
       // 这里可以根据实际情况添加其他请求头
-      // 比如 content-type 等
-      // config.headers['Content-Type'] = 'application/json'
+      config.headers['Content-Type'] = 'application/json'
     }
     return config
   },
