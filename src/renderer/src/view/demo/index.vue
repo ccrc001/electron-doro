@@ -120,7 +120,7 @@
             <label class="control-label">唤醒链接：</label>
             <el-input
               readonly
-              model-value="bcxlelectrondemo://joinRoom?roomCode=123"
+              model-value="doroapp://joinRoom?roomCode=doro爱吃欧润吉"
               class="url-input"
             >
               <template #prepend>
