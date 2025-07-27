@@ -2,6 +2,9 @@ import { BrowserWindow, BrowserWindowConstructorOptions, ipcMain } from 'electro
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
+// 全局标志，确保 IPC 处理程序只注册一次
+let ipcHandlersRegistered = false
+
 // 窗口配置接口
 export interface WindowConfig {
   route: string // 路由路径
@@ -65,6 +68,28 @@ export class WindowManager {
     this.icon = is.dev
       ? join(__dirname, '../../resources/icon.png')
       : join(process.resourcesPath, 'icon.png')
+
+    // 注册全局 IPC 处理程序（只注册一次）
+    this.registerGlobalIpcHandlers()
+  }
+
+  /**
+   * 注册全局 IPC 处理程序
+   */
+  private registerGlobalIpcHandlers(): void {
+    if (ipcHandlersRegistered) {
+      return
+    }
+
+    // 设置窗口透明度
+    ipcMain.handle('set-opacity', (event, opacity: number) => {
+      const window = BrowserWindow.fromWebContents(event.sender)
+      if (window && !window.isDestroyed()) {
+        window.setOpacity(opacity)
+      }
+    })
+
+    ipcHandlersRegistered = true
   }
 
   // 获取单例实例
@@ -182,10 +207,7 @@ export class WindowManager {
       if (config.show !== false) {
         window.show()
       }
-      // 设置窗口透明度
-      ipcMain.handle('set-opacity', (_event, opacity: number) => {
-        window.setOpacity(opacity)
-      })
+
       // 发送参数给渲染进程
       if (config.params) {
         window.webContents.send('window-params', {
