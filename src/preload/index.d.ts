@@ -4,7 +4,7 @@ interface UpdaterAPI {
   checkForUpdates: () => Promise<any>
   downloadUpdate: () => Promise<boolean>
   installUpdate: () => void
-  getAppVersion: () => Promise<>
+  getAppVersion: () => Promise<object>
   onUpdateStatus: (callback: (status: string) => void) => void
   onDownloadProgress: (callback: (progress: any) => void) => void
   removeAllListeners: () => void

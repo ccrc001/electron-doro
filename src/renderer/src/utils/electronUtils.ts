@@ -14,7 +14,7 @@ const urlParamKey = 'urlParamData='
 /**
  * 返回url传输的对象
  */
-export const getParamFromUrl = function (): any {
+export const getParamFromUrl = function (): object | null {
   const url = decodeURIComponent(document.location.href)
   const index = url.indexOf(urlParamKey)
   if (index >= 0) {
@@ -23,7 +23,7 @@ export const getParamFromUrl = function (): any {
   return null
 }
 
-export const getRoomCode = function (): any {
+export const getRoomCode = function (): string {
   return window.electron.ipcRenderer.sendSync('get-roomCode')
 }
 
@@ -60,6 +60,7 @@ export interface WindowConfig {
   title?: string // 窗口标题
   backgroundColor?: string // 背景色
   transparent?: boolean // 是否透明
+  opacity?: number //窗口透明度
   resizable?: boolean // 是否可调整大小
   minimizable?: boolean // 是否可最小化
   maximizable?: boolean // 是否可最大化
@@ -71,14 +72,17 @@ export interface WindowConfig {
   frame?: boolean // 是否显示边框
   titleBarStyle?: 'default' | 'hidden' | 'hiddenInset' | 'customButtonsOnHover'
   webSecurity?: boolean // 是否启用 web 安全
-  params?: never // 传递给窗口的参数
+  params?: any // 传递给窗口的参数
 }
 /**
  * 创建自定义窗口
  * @param windowKey 窗口唯一标识
  * @param config 窗口配置
  */
-export const createCustomWindow = function (windowKey: string, config: WindowConfig): Promise<any> {
+export const createCustomWindow = function (
+  windowKey: string,
+  config: WindowConfig
+): Promise<void> {
   return window.electron.ipcRenderer.invoke('create-custom-window', windowKey, config)
 }
 
@@ -96,4 +100,12 @@ export function closeWindow(windowKey: string): Promise<void> {
  */
 export function hasWindow(windowKey: string): Promise<boolean> {
   return window.electron.ipcRenderer.invoke('has-window', windowKey)
+}
+
+/**
+ * 设置页面透明度
+ * @param opacity 透明度
+ */
+export function setOpacity(opacity: number): void {
+  window.electron.ipcRenderer.invoke('set-opacity', opacity)
 }

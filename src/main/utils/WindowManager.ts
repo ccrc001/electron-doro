@@ -1,4 +1,4 @@
-import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron'
+import { BrowserWindow, BrowserWindowConstructorOptions, ipcMain } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
@@ -15,6 +15,7 @@ export interface WindowConfig {
   icon?: string // 自定义图标路径
   backgroundColor?: string // 背景色
   transparent?: boolean // 是否透明
+  opacity?: number //窗口透明度
   resizable?: boolean // 是否可调整大小
   minimizable?: boolean // 是否可最小化
   maximizable?: boolean // 是否可最大化
@@ -39,6 +40,7 @@ const DEFAULT_CONFIG: Partial<WindowConfig> = {
   title: 'Doro爱吃欧润吉',
   backgroundColor: '#ffffff',
   transparent: false,
+  opacity: 1,
   resizable: true,
   minimizable: true,
   maximizable: true,
@@ -127,6 +129,7 @@ export class WindowManager {
       title: finalConfig.title,
       backgroundColor: finalConfig.backgroundColor,
       transparent: finalConfig.transparent,
+      opacity: finalConfig.opacity,
       resizable: finalConfig.resizable,
       minimizable: finalConfig.minimizable,
       maximizable: finalConfig.maximizable,
@@ -138,6 +141,7 @@ export class WindowManager {
       show: finalConfig.show,
       frame: finalConfig.frame,
       titleBarStyle: finalConfig.titleBarStyle,
+
       icon: finalConfig.icon || this.icon,
       autoHideMenuBar: true,
       webPreferences: {
@@ -178,7 +182,10 @@ export class WindowManager {
       if (config.show !== false) {
         window.show()
       }
-
+      // 设置窗口透明度
+      ipcMain.handle('set-opacity', (_event, opacity: number) => {
+        window.setOpacity(opacity)
+      })
       // 发送参数给渲染进程
       if (config.params) {
         window.webContents.send('window-params', {

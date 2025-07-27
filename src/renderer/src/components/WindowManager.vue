@@ -15,9 +15,9 @@
         <h3>快速创建窗口</h3>
       </div>
       <div class="quick-actions">
-        <el-button type="primary" size="large" @click="createUserWindow">
+        <el-button type="primary" size="large" @click="createArticleWindow">
           <el-icon><i-ep-user /></el-icon>
-          用户管理窗口
+          文章窗口
         </el-button>
         <el-button type="success" size="large" @click="createSettingsWindow">
           <el-icon><i-ep-setting /></el-icon>
@@ -173,34 +173,36 @@ const windowKeyToManage = ref('')
 const windowStatus = ref(false)
 const windowExists = ref(false)
 
-// 创建用户管理窗口
-const createUserWindow = async () => {
+// 创建文章窗口
+const createArticleWindow = async () => {
   try {
     await createCustomWindow('user-window', {
-      route: '/user',
-      title: '用户管理',
+      route: '/article',
+      title: '文章列表',
       width: 900,
       height: 700,
       minWidth: 600,
       minHeight: 400,
       params: { from: 'window-manager' }
     })
-    ElMessage.success('用户管理窗口已创建')
+    ElMessage.success('文章列表窗口已创建')
   } catch (error) {
     ElMessage.error('创建窗口失败')
   }
 }
 
-// 创建登录窗口
+// 创建设置窗口
 const createSettingsWindow = async () => {
   try {
     await createCustomWindow('login-window', {
-      route: '/login',
-      title: '登录',
+      route: '/settings',
+      title: '设置',
       width: 600,
       height: 500,
+      opacity: 0.3,
       resizable: false,
-      center: true
+      center: true,
+      alwaysOnTop: true
     })
     ElMessage.success('设置窗口已创建')
   } catch (error) {

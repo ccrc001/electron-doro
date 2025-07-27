@@ -1,5 +1,3 @@
-
-
 declare module '@api/login' {
   declare module '@api/model/baseModel' {
     interface LoginParams {
@@ -35,4 +33,6 @@ declare module '@api/login' {
   export function loginCaptcha(params): Promise<AxiosResponse>
   export function loginByMobile(data): Promise<AxiosResponse>
   export function getUserList(): Promise<AxiosResponse>
+  export function getUserLogin(data): Promise<AxiosResponse>
+  export function getPosts(): Promise<AxiosResponse>
 }

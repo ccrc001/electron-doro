@@ -158,6 +158,8 @@ const router = useRouter()
 const routerPaths = ref<string[]>([])
 // 取到所有的路径
 routerPaths.value = router.getRoutes().map((item) => item.path)
+routerPaths.value.push('/abc')
+console.log(routerPaths.value)
 
 const handleLogin = () => {
   window.electron.ipcRenderer.send('ping')

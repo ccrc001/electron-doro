@@ -10,28 +10,28 @@ onErrorCaptured((error) => {
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>Header</el-header>
+      <!-- <el-header>Header</el-header> -->
       <el-container style="flex: 1">
         <el-main>
-          <router-view v-slot="{ Component }">
-            <keep-alive>
-              <transition name="fade" mode="out-in">
+          <transition name="fade" mode="out-in">
+            <router-view v-slot="{ Component }">
+              <keep-alive :include="['Home']">
                 <Suspense>
-                  <!-- 主要内容 -->
                   <template #default>
                     <component :is="Component" />
                   </template>
-                  <!-- 加载状态 -->
                   <template #fallback>
                     <Loading :visible="true" />
                   </template>
                 </Suspense>
-              </transition>
-            </keep-alive>
-          </router-view>
+              </keep-alive>
+            </router-view>
+          </transition>
         </el-main>
       </el-container>
-      <el-footer>Footer</el-footer>
+      <!-- <el-footer> -->
+      <AppDock />
+      <!-- </el-footer> -->
     </el-container>
   </div>
 </template>
@@ -40,20 +40,24 @@ onErrorCaptured((error) => {
 .common-layout {
   position: relative;
   top: 0;
-  width: 100vh;
-  height: 100vw;
+  width: 100%;
+  height: 100%;
 }
-// .container {
-//   width: 100vh;
-//   height: 100vw;
+::v-deep .el-main,
+.el-header,
+.el-footer {
+  padding: 0px;
+}
+::v-deep .el-footer {
+  height: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
 
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   z-index: 9;
-//   transition: all 0.28s;
-//   &.hidderContainer {
-//     width: 100%;
-//   }
-// }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

@@ -29,20 +29,25 @@ const languageOptions = [
   { label: 'English', value: 'en' }
 ]
 
-const handleNotification = (value: boolean) => {
+const handleNotification = (value): void => {
   console.log(value)
   // 警告
   ElMessage.warning('暂未开发')
 }
 
-const handleAutoUpdate = (value: boolean) => {
+const handleAutoUpdate = (value): void => {
   console.log(value)
   ElMessage.warning('暂未开发')
 }
 
-const handleSave = () => {
+const confirmEvent = (): void => {
+  window.electron.ipcRenderer.invoke('clear-storage-data')
+  ElMessage.warning('暂未开发')
+}
+
+const handleSave = (): void => {
   // 这里可以添加保存设置的逻辑
-  console.log(settings.value)
+  // console.log(settings.value)
   locale.value = settings.value.language
   // 设置缓存的值
   cacheUtils.set('lang', settings.value.language)
@@ -93,6 +98,19 @@ const handleSave = () => {
 
       <el-form-item label="应用更新">
         <AppUpdater />
+      </el-form-item>
+
+      <el-form-item label="清除缓存">
+        <el-popconfirm
+          class="box-item"
+          title="该操作不可逆，是否继续？"
+          placement="right"
+          @confirm="confirmEvent"
+        >
+          <template #reference>
+            <el-button type="primary" size="small"> 清理 </el-button>
+          </template>
+        </el-popconfirm>
       </el-form-item>
 
       <el-form-item>

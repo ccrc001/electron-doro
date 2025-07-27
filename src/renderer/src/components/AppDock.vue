@@ -6,10 +6,12 @@ const router = useRouter()
 const route = useRoute()
 // 获取当前所有路由
 const routes = Approutes
+console.log(routes)
+
 // dock 项配置
 const dockItems = ref()
 
-dockItems.value = routes.map((item) => ({
+dockItems.value = routes[0].children.map((item) => ({
   id: item.name,
   icon: item.meta?.icon,
   label: item.meta?.label,

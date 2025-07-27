@@ -4,7 +4,7 @@ import { ipcMain, BrowserWindow } from 'electron'
  * show : ture 显示app进度条，false，关闭显示
  */
 let progressInterval
-export default function createProgressBar(mainWindow: BrowserWindow) {
+export default function createProgressBar(mainWindow: BrowserWindow): void {
   ipcMain.handle('show-process', (_event, show: boolean) => {
     const INCREMENT = 0.03
     const INTERVAL_DELAY = 100 // ms

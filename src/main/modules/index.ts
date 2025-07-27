@@ -7,6 +7,9 @@ import piniaStoreChange from './piniaStoreChange' //多窗口pinia同步
 import languageChange from './languageChange' //语言同步
 import themeStyleChange from './themeStyleChange' //主题样式同步
 import { setupAutoUpdater, checkForUpdatesOnStartup } from './autoUpdater' // 自动更新
+import setupAppWakeup from './appWakeup' // 应用唤醒
+import clearStorageData from './clearStorageData' // 清除缓存
+
 export {
   createProgressBar,
   createTray,
@@ -16,5 +19,7 @@ export {
   languageChange,
   themeStyleChange,
   setupAutoUpdater,
-  checkForUpdatesOnStartup
+  checkForUpdatesOnStartup,
+  setupAppWakeup,
+  clearStorageData
 }

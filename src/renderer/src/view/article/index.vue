@@ -3,19 +3,11 @@ import { ref, onMounted, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { getPosts } from '@api/login'
-import {
-  Search,
-  Edit,
-  View,
-  User,
-  Calendar,
-  ArrowLeft,
-  RefreshRight
-} from '@element-plus/icons-vue'
+import { Search, Edit, View, User, ArrowLeft, RefreshRight } from '@element-plus/icons-vue'
 
 // 定义组件名称，用于keep-alive缓存
 defineOptions({
-  name: 'Article'
+  name: 'ArticleList'
 })
 
 const router = useRouter()

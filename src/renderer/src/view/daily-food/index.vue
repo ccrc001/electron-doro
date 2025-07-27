@@ -5,7 +5,7 @@
         <el-icon class="title-icon"><i-ep-food /></el-icon>
         今日美食推荐
       </h1>
-      <p class="daily-subtitle">让 AI 为你推荐今天吃什么喝什么</p>
+      <p class="daily-subtitle">让 Doro 为你推荐今天吃什么喝什么</p>
     </div>
 
     <div class="daily-content">

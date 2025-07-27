@@ -139,7 +139,7 @@ const resetState = (): void => {
 const getCurrentVersion = async (): Promise<void> => {
   try {
     currentVersion.value = await window.api.updater.getAppVersion()
-    console.log(currentVersion.value)
+    // console.log(currentVersion.value)
     // await checkForUpdates()
   } catch (error) {
     console.error('获取版本信息失败:', error)
