@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { Approutes } from '@router/routes'
+// import { Approutes } from '@router/routes'
+import AppRouter from '@router/index'
+import { RouteRecordRaw } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 // 获取当前所有路由
-const routes = Approutes
-console.log(routes)
+const routes: readonly RouteRecordRaw[] = AppRouter.options.routes
 
 // dock 项配置
 const dockItems = ref()
 
-dockItems.value = routes[0].children.map((item) => ({
-  id: item.name,
-  icon: item.meta?.icon,
-  label: item.meta?.label,
-  path: item.path
-}))
+const rootRoute = routes.find((item) => item.path === '/root')
+dockItems.value =
+  rootRoute?.children?.map((item) => ({
+    id: item.name,
+    icon: item.meta?.icon,
+    label: item.meta?.label,
+    path: item.path
+  })) || []
 
 // 当前激活的项
 const activeItem = computed(() => {

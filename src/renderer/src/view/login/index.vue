@@ -60,7 +60,7 @@ const handleLogin = async () => {
       // await userStore.getUserInfo()
 
       ElMessage.success('登录成功！')
-      router.push('/')
+      router.push('/root')
     }
   } catch (error) {
     console.error('登录失败:', error)

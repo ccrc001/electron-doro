@@ -80,6 +80,15 @@ import Layout from '../layouts/index.vue'
 export const Approutes: RouteRecordRaw[] = [
   {
     path: '/',
+    name: 'login',
+    meta: {
+      icon: 'search',
+      label: 'router.login'
+    },
+    component: () => import('../view/login/index.vue')
+  },
+  {
+    path: '/root',
     name: 'root',
     component: Layout,
     redirect: '/home',
@@ -96,15 +105,6 @@ export const Approutes: RouteRecordRaw[] = [
           label: 'router.home'
         },
         component: () => import('../view/home/index.vue')
-      },
-      {
-        path: '/login',
-        name: 'login',
-        meta: {
-          icon: 'search',
-          label: 'router.login'
-        },
-        component: () => import('../view/login/index.vue')
       },
       {
         path: '/article',
@@ -144,6 +144,7 @@ export const Approutes: RouteRecordRaw[] = [
       }
     ]
   },
+
   {
     path: '/douyin',
     name: 'Douyin',

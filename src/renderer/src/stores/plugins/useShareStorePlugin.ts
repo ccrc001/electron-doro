@@ -13,7 +13,7 @@ declare module 'pinia' {
 }
 
 /**获取本地缓存的store的修改版本 */
-function getLocalStoreUpdateVersion(storeCacheKey: string) {
+function getLocalStoreUpdateVersion(storeCacheKey: string): number {
   let currentStoreUpdateVersion: number = cacheUtils.get(storeCacheKey)
   // 如果本地没有，就初始化一个
   if (currentStoreUpdateVersion === null || currentStoreUpdateVersion === undefined) {
@@ -24,7 +24,7 @@ function getLocalStoreUpdateVersion(storeCacheKey: string) {
 }
 
 // 处理electron多窗口，pinia共享问题
-export function shareStorePlugin({ store }: PiniaPluginContext) {
+export function shareStorePlugin({ store }: PiniaPluginContext): void {
   // 初始化本地缓存版本
   const storeName: string = store.$id
   /// 缓存key
@@ -95,7 +95,11 @@ export function shareStorePlugin({ store }: PiniaPluginContext) {
  * @param storeName  修改的状态的名称
  * @param storeUpdateVersion  状态修改的版本号
  */
-function updateStoreSync(stateJsonStr: string, storeName: string, storeUpdateVersion: number) {
+function updateStoreSync(
+  stateJsonStr: string,
+  storeName: string,
+  storeUpdateVersion: number
+): void {
   // 更新本地缓存的store版本号
   const storeCacheVersionKey = STORE_CACHE_VERSION_KEY_PREFIX + storeName
   cacheUtils.set(storeCacheVersionKey, storeUpdateVersion, STORE_CACHE_TIME)
@@ -111,7 +115,7 @@ function updateStoreSync(stateJsonStr: string, storeName: string, storeUpdateVer
  * 初始化状态对象
  * @param store
  */
-function initStore(store: any) {
+function initStore(store: any): void {
   const cacheKey = STORE_CACHE_KEY_PREFIX + store.$id
   // 从本地缓存中读取store的值
   const stateJsonStr = cacheUtils.get(cacheKey)

@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { defineConfig, externalizeDepsPlugin, bytecodePlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue' // 自动导入vue
 import AutoImport from 'unplugin-auto-import/vite' // 自动导入API
 import Components from 'unplugin-vue-components/vite' // 自动导入组件
@@ -22,10 +22,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     main: {
-      plugins: [externalizeDepsPlugin()] // 自动导入依赖
+      plugins: [externalizeDepsPlugin(), bytecodePlugin()] // 自动导入依赖
     },
     preload: {
-      plugins: [externalizeDepsPlugin()] // 自动导入依赖
+      plugins: [externalizeDepsPlugin(), bytecodePlugin()] // 自动导入依赖
     },
     renderer: {
       envPrefix: 'VITE_',

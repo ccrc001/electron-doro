@@ -11,10 +11,12 @@ import { useAppStore } from '@stores/useAppStore'
 import { cacheUtils } from '@utils/cacheUtils'
 import themeUtils, { themeModeMap } from '@utils/themeUtils'
 import AppUpdater from '@components/AppUpdater.vue'
-
+import { useRouter } from 'vue-router'
 // Vue Composition API 钩子必须在顶层调用
 const { locale } = useI18n()
 const appStore = useAppStore()
+
+const router = useRouter()
 // console.log(appStore)
 
 const settings = ref({
@@ -43,6 +45,10 @@ const handleAutoUpdate = (value): void => {
 const confirmEvent = (): void => {
   window.electron.ipcRenderer.invoke('clear-storage-data')
   ElMessage.warning('暂未开发')
+}
+
+const handleLogin = (): void => {
+  router.push('/')
 }
 
 const handleSave = (): void => {
@@ -96,6 +102,10 @@ const handleSave = (): void => {
         <el-switch v-model="settings.autoUpdate" @change="handleAutoUpdate" />
       </el-form-item>
 
+      <el-form-item>
+        <el-button type="primary" @click="handleSave">保存设置</el-button>
+      </el-form-item>
+
       <el-form-item label="应用更新">
         <AppUpdater />
       </el-form-item>
@@ -113,8 +123,8 @@ const handleSave = (): void => {
         </el-popconfirm>
       </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="handleSave">保存设置</el-button>
+      <el-form-item label="退出登录">
+        <el-button type="primary" size="small" @click="handleLogin"> 退出 </el-button>
       </el-form-item>
     </el-form>
   </div>

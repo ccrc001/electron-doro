@@ -9,20 +9,20 @@ export const useUserStore = defineStore(
     const rolePerm = ref('')
     const permissions = ref('*:*:*')
 
-    async function setToken(token: string) {
+    async function setToken(token: string): Promise<void> {
       localStorage.setItem('TOKEN', token)
     }
 
-    async function getToken() {
+    async function getToken(): Promise<string> {
       return localStorage.getItem('TOKEN') || ''
     }
 
-    async function removeToken() {
+    async function removeToken(): Promise<void> {
       localStorage.removeItem('TOKEN')
     }
 
-    async function getUserInfo() {
-      let res = await getInfo()
+    async function getUserInfo(): Promise<void> {
+      const res = await getInfo()
       if (res.code == '200') {
         userInfo.value = res.data
         rolePerm.value = res.data.roles[0].rolePerm || ''
@@ -31,7 +31,7 @@ export const useUserStore = defineStore(
       }
     }
 
-    function getPermissions() {
+    function getPermissions(): string {
       return permissions.value
     }
 

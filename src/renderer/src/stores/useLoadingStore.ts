@@ -37,21 +37,21 @@ export const useLoadingStore = defineStore('loading', () => {
   const isRouteLoading = computed(() => routeLoading.value)
 
   // Actions (普通函数)
-  function show() {
+  function show(): void {
     loadingCount.value++
   }
 
-  function hide() {
+  function hide(): void {
     if (loadingCount.value > 0) {
       loadingCount.value--
     }
   }
 
-  function showRouteLoading() {
+  function showRouteLoading(): void {
     routeLoading.value = true
   }
 
-  function hideRouteLoading() {
+  function hideRouteLoading(): void {
     routeLoading.value = false
   }
 
