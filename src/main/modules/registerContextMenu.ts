@@ -20,6 +20,7 @@ export default function registerContextMenu(mainWindow: BrowserWindow): void {
         },
         accelerator: process.platform === 'darwin' ? 'Alt+Command+R' : 'Ctrl+Shift+R'
       },
+      { label: '打开控制台', role: 'toggleDevTools' },
       // 打开控制台 开发环境显示
       is.dev ? { label: '打开控制台', role: 'toggleDevTools' } :   { type: 'separator' },
       // 自定义功能

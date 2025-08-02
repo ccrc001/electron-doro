@@ -11,7 +11,6 @@ log.transports.console.level = 'info'
 // 配置自动更新
 export function setupAutoUpdater(window: BrowserWindow): void {
   mainWindow = window
-console.log('自动执行了',is.dev);
 
   // 配置更新服务器
   if (!is.dev) {
