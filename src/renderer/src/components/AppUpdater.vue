@@ -178,7 +178,7 @@ const formatBytes = (bytes: number): string => {
 // 监听更新状态
 const handleUpdateStatus = (status: string): void => {
   updateStatus.value = status
-  console.log(status);
+  // console.log(status);
   
 
   if (status.includes('下载进度')) {
