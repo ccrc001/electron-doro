@@ -22,15 +22,13 @@ export const themeModeMap = new Map<string, string>([
  * @param key 样式名
  * @param value  样式值
  */
-function setStyleProperty(key: string, value: string) {
+function setStyleProperty(key: string, value: string): void {
   document.getElementsByTagName('body')[0].style.setProperty(key, value)
 }
 /**
  * 从缓存或默认json样式配置中全局设置样式变量
  */
-export const initTheme = () => {
-  console.log('吃石化')
-
+export const initTheme = (): void => {
   // 从缓存中取出当前主题模式，默认为 light模式
   themeChange(cacheUtils.get(keyThemePrefix + 'mode') || themeModeEnum.light, true)
 
@@ -60,7 +58,7 @@ export const initTheme = () => {
  * @param mode 主题模式
  * @param electronChange 窗口是否需要同步修改 默认需要
  */
-export function themeChange(mode: string, electronChange = true) {
+export function themeChange(mode: string, electronChange = true): void {
   // app状态管理
   const appStore = useAppStore()
   // 设置主题状态
@@ -103,7 +101,7 @@ export function themeChange(mode: string, electronChange = true) {
  * @param param scss定义的样式名称，参考 {src\styles\variables.scss}
  * @param value 样式值
  */
-export function styleChange(param: string, value: string) {
+export function styleChange(param: string, value: string): void {
   // 修改页面的变量
   setStyleProperty(param, value)
 

@@ -44,9 +44,9 @@
             </el-form-item>
             <el-form-item label="路由">
               <el-select v-model="customConfig.route" placeholder="选择路由">
-                <el-option label="/user" value="/user" />
-                <el-option label="/login" value="/login" />
-                <el-option label="/mock-test" value="/mock-test" />
+                <el-option label="/" value="/" />
+                <!-- <el-option label="/login" value="/login" />
+                <el-option label="/mock-test" value="/mock-test" /> -->
               </el-select>
             </el-form-item>
             <el-form-item label="窗口标题">
@@ -71,7 +71,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="参数">
+              <el-input v-model="customConfig.params.message" placeholder="参数" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="窗口选项">
@@ -154,7 +160,7 @@ defineOptions({
 // 自定义配置
 const customConfig = reactive({
   windowKey: '',
-  route: '/user',
+  route: '/',
   title: '自定义窗口',
   width: 800,
   height: 600,
@@ -165,7 +171,10 @@ const customConfig = reactive({
   resizable: true,
   alwaysOnTop: false,
   frame: true,
-  center: true
+  center: true,
+  params: {
+    message: 'Doro爱吃欧润吉'
+  }
 })
 
 // 窗口管理
@@ -250,7 +259,9 @@ const handleCreateCustomWindow = async () => {
       alwaysOnTop: customConfig.alwaysOnTop,
       frame: customConfig.frame,
       center: customConfig.center,
-      params: { customConfig: true }
+      params: {
+        message: customConfig.params.message
+      }
     }
 
     await createCustomWindow(customConfig.windowKey, config)
@@ -264,7 +275,7 @@ const handleCreateCustomWindow = async () => {
 const resetConfig = () => {
   Object.assign(customConfig, {
     windowKey: '',
-    route: '/user',
+    route: '/',
     title: '自定义窗口',
     width: 800,
     height: 600,
@@ -275,7 +286,10 @@ const resetConfig = () => {
     resizable: true,
     alwaysOnTop: false,
     frame: true,
-    center: true
+    center: true,
+    params: {
+      message: 'Doro爱吃欧润吉'
+    }
   })
 }
 

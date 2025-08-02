@@ -1,25 +1,59 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-// import { Approutes } from '@router/routes'
 import AppRouter from '@router/index'
-import { RouteRecordRaw } from 'vue-router'
+import { useMenuStore } from '@stores/useMenuStore'
+
 const router = useRouter()
 const route = useRoute()
-// 获取当前所有路由
-const routes: readonly RouteRecordRaw[] = AppRouter.options.routes
+const menuStore = useMenuStore()
 
-// dock 项配置
-const dockItems = ref()
+// dock 项配置接口
+interface DockItem {
+  id: string
+  icon: string
+  label: string
+  path: string
+}
 
-const rootRoute = routes.find((item) => item.path === '/root')
-dockItems.value =
-  rootRoute?.children?.map((item) => ({
-    id: item.name,
-    icon: item.meta?.icon,
-    label: item.meta?.label,
-    path: item.path
-  })) || []
+const dockItems = ref<DockItem[]>([])
+
+// 更新 dock 项的函数
+const updateDockItems = (): void => {
+  // 获取当前所有路由（包括动态添加的）
+  const allRoutes = AppRouter.getRoutes()
+  const rootRoute = allRoutes.find((item) => item.path === '/root')
+
+  dockItems.value =
+    rootRoute?.children
+      ?.filter((item) => item.name && item.meta?.icon && item.meta?.label && item.path)
+      .map((item) => ({
+        id: item.name as string,
+        icon: item.meta?.icon as string,
+        label: item.meta?.label as string,
+        path: item.path
+      })) || []
+
+  // console.log('更新后的 dock 项:', dockItems.value)
+}
+
+// 初始化 dock 项
+updateDockItems()
+
+// 监听菜单 store 的变化，当动态路由添加后更新 dock
+watch(
+  () => menuStore.hasAddedRoutes,
+  (newValue) => {
+    if (newValue) {
+      console.log('检测到动态路由已添加，更新 dock 项')
+      // 延迟一下确保路由已经完全添加
+      setTimeout(() => {
+        updateDockItems()
+      }, 100)
+    }
+  },
+  { immediate: false }
+)
 
 // 当前激活的项
 const activeItem = computed(() => {

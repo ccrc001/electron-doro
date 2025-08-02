@@ -1,5 +1,5 @@
 // 文章相关的 Mock 数据
-import { MockMethod } from 'vite-plugin-mock'
+// import { MockMethod } from 'vite-plugin-mock'
 
 // 模拟文章数据
 const mockPosts = [
@@ -97,17 +97,17 @@ const mockPosts = [
 
 export default [
   // 获取文章列表
-  // {
-  //   url: '/api/posts',
-  //   method: 'get',
-  //   response: () => {
-  //     return {
-  //       code: 200,
-  //       msg: '获取文章列表成功',
-  //       data: mockPosts
-  //     }
-  //   }
-  // },
+  {
+    url: '/api/posts',
+    method: 'get',
+    response: () => {
+      return {
+        code: 200,
+        msg: '获取文章列表成功',
+        data: mockPosts
+      }
+    }
+  },
 
   // 获取单个文章
   {
@@ -132,4 +132,4 @@ export default [
       }
     }
   }
-] as MockMethod[]
+]

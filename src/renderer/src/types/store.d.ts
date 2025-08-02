@@ -36,14 +36,15 @@ declare module '@stores/useUserStore' {
     setToken(token: string): Promise<void>
     getToken(): Promise<string>
     removeToken(): Promise<void>
-    getUserInfo(): Promise<void>
+    getInfo(): Promise<void>
+    getRolePerm(): string
     getPermissions(): string
   }
 
   interface PersistOptions {
     persist: {
       key: string
-      paths: string[]
+      pick: string[]
       storage: Storage
     }
   }

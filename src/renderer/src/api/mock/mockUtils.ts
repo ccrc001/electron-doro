@@ -110,9 +110,9 @@ export function initializeMock(): void {
     // ;(window as any).Mock = Mock
 
     // 设置 Mock.js 配置
-    Mock.setup({
-      timeout: '2000' // 设置响应时间为3秒
-    })
+    // Mock.setup({
+    //   timeout: '2000' // 设置响应时间为3秒
+    // })
 
     console.log('✅ Mock.js initialized successfully')
     console.log('📋 Mock.js version:', Mock.version || 'unknown')

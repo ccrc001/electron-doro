@@ -81,6 +81,10 @@
               <el-icon><i-ep-plus /></el-icon>
               新建窗口
             </el-button>
+            <el-button type="success" size="large" @click="testDynamicRoute">
+              <el-icon><i-ep-video-play /></el-icon>
+              测试动态路由跳转
+            </el-button>
           </div>
         </div>
       </div>
@@ -146,11 +150,14 @@
 defineOptions({
   name: 'Debug'
 })
+import { ref, onMounted } from 'vue'
 
 import { openNewWindow, getRoomCode } from '@utils/electronUtils'
 import { useAppStore } from '@stores/useAppStore'
 import { ElMessage } from 'element-plus'
 import WindowManager from '@components/WindowManager.vue'
+import { useRouter } from 'vue-router'
+import AppRouter from '@router/index'
 const appStore = useAppStore()
 
 const windowPath = ref('/')
@@ -159,7 +166,7 @@ const routerPaths = ref<string[]>([])
 // 取到所有的路径
 routerPaths.value = router.getRoutes().map((item) => item.path)
 routerPaths.value.push('/abc')
-console.log(routerPaths.value)
+// console.log(routerPaths.value)
 
 const handleLogin = () => {
   window.electron.ipcRenderer.send('ping')
@@ -173,7 +180,7 @@ const handleProgress = () => {
 
 const openWindow = () => {
   const param = {
-    message: 'hello'
+    message: '自定义传递的参数'
   }
   // router.push(windowPath.value)
   openNewWindow(windowPath.value, param)
@@ -188,6 +195,25 @@ const getRoomCodeByUrl = () => {
     ElMessage.warning('浏览器输入唤醒应用')
   }
 }
+
+// 测试动态路由跳转
+const testDynamicRoute = () => {
+  // 打印所有路由
+  // console.log('当前所有路由:', AppRouter.getRoutes())
+  // 尝试解析路由
+  // const resolved = AppRouter.resolve('/douyin')
+  // console.log('路由解析结果:', resolved)
+
+  // 尝试跳转
+  try {
+    router.push(windowPath.value)
+    ElMessage.success('跳转成功')
+  } catch (error) {
+    console.error('跳转失败:', error)
+    ElMessage.error('跳转失败: ' + error)
+  }
+}
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss">

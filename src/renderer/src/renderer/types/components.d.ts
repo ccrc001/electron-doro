@@ -67,6 +67,7 @@ declare module 'vue' {
     IEpStarFilled: typeof import('~icons/ep/star-filled')['default']
     IEpTimer: typeof import('~icons/ep/timer')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
+    IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
     IEpView: typeof import('~icons/ep/view')['default']
     IEpWarning: typeof import('~icons/ep/warning')['default']
     Loading: typeof import('./../../components/Loading.vue')['default']

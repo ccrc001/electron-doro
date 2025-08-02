@@ -6,7 +6,8 @@ export default {
     settings: '设置',
     demo: '调试',
     mock: 'Mock测试',
-    dailyFood: '每日美食'
+    dailyFood: '每日美食',
+    douyin: '抖音'
   },
 
   login: {

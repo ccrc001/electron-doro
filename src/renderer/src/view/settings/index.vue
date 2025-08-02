@@ -12,6 +12,8 @@ import { cacheUtils } from '@utils/cacheUtils'
 import themeUtils, { themeModeMap } from '@utils/themeUtils'
 import AppUpdater from '@components/AppUpdater.vue'
 import { useRouter } from 'vue-router'
+import { useMenuStore } from '@stores/useMenuStore'
+const menuStore = useMenuStore()
 // Vue Composition API 钩子必须在顶层调用
 const { locale } = useI18n()
 const appStore = useAppStore()
@@ -48,6 +50,10 @@ const confirmEvent = (): void => {
 }
 
 const handleLogin = (): void => {
+  menuStore.menuList = []
+  menuStore.setRoutesAdded(false)
+  // 刷新页面
+
   router.push('/')
 }
 

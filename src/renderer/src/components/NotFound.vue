@@ -8,7 +8,7 @@ let timer: ReturnType<typeof setInterval> | null = null
 
 // 返回首页
 const goHome = (): void => {
-  router.push('/')
+  router.push('/root')
 }
 
 // 返回上一页

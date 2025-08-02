@@ -1,8 +1,8 @@
 import { autoUpdater } from 'electron-updater'
-import { BrowserWindow, dialog, ipcMain } from 'electron'
+import { BrowserWindow, dialog, ipcMain, Notification } from 'electron'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
-
+import icon from '../../../resources/icon.png?asset'
 let mainWindow: BrowserWindow | null = null
 
 // 配置日志
@@ -11,11 +11,16 @@ log.transports.console.level = 'info'
 // 配置自动更新
 export function setupAutoUpdater(window: BrowserWindow): void {
   mainWindow = window
+console.log('自动执行了',is.dev);
 
   // 配置更新服务器
   if (!is.dev) {
     // 生产环境配置
-    autoUpdater.checkForUpdatesAndNotify()
+    // 禁用自动下载（手动控制下载）
+    autoUpdater.autoDownload = false
+     // 开启开发环境调试，后边会有说明
+     autoUpdater.forceDevUpdateConfig = true
+    // autoUpdater.checkForUpdatesAndNotify()
   }
 
   // 设置更新日志
@@ -31,6 +36,11 @@ export function setupAutoUpdater(window: BrowserWindow): void {
   autoUpdater.on('update-available', (info) => {
     console.log('发现新版本:', info.version)
     sendStatusToWindow(`发现新版本: ${info.version}`)
+   new Notification({
+    icon: icon,
+    title: '发现新版本',
+    body: `发现新版本 ${info.version}，是否立即下载？`
+   }).show()
 
     // 显示更新提示对话框
     dialog
@@ -43,6 +53,9 @@ export function setupAutoUpdater(window: BrowserWindow): void {
       })
       .then((result) => {
         if (result.response === 0) {
+          // 通知获取更新
+          sendStatusToWindow('获取更新中...')
+
           // 用户选择立即下载
           autoUpdater.downloadUpdate()
         }

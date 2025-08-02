@@ -13,20 +13,22 @@ onErrorCaptured((error) => {
       <!-- <el-header>Header</el-header> -->
       <el-container style="flex: 1">
         <el-main>
-          <transition name="fade" mode="out-in">
-            <router-view v-slot="{ Component }">
-              <keep-alive :include="['Home']">
-                <Suspense>
-                  <template #default>
-                    <component :is="Component" />
-                  </template>
-                  <template #fallback>
-                    <Loading :visible="true" />
-                  </template>
-                </Suspense>
-              </keep-alive>
-            </router-view>
-          </transition>
+          <router-view v-slot="{ Component }">
+            <transition name="fade" mode="out-in">
+              <div class="router-view-wrapper">
+                <keep-alive :include="['Home']">
+                  <Suspense>
+                    <template #default>
+                      <component :is="Component" />
+                    </template>
+                    <template #fallback>
+                      <Loading :visible="true" />
+                    </template>
+                  </Suspense>
+                </keep-alive>
+              </div>
+            </transition>
+          </router-view>
         </el-main>
       </el-container>
       <!-- <el-footer> -->
@@ -43,6 +45,12 @@ onErrorCaptured((error) => {
   width: 100%;
   height: 100%;
 }
+
+.router-view-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
 ::v-deep .el-main,
 .el-header,
 .el-footer {

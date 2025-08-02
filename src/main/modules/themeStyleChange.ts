@@ -1,7 +1,7 @@
 import { ipcMain, BrowserWindow, nativeTheme } from 'electron'
 
 // 主题样式修改同步
-export default function themeStyleChange() {
+export default function themeStyleChange(): void {
   ipcMain.handle('theme-style:change', (event, mode?: 'system' | 'light' | 'dark') => {
     if (mode && 'system,light,dark'.indexOf(mode) >= 0) {
       nativeTheme.themeSource = mode

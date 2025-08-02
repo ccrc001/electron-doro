@@ -174,7 +174,9 @@ export class WindowManager {
         sandbox: false,
         webSecurity: finalConfig.webSecurity,
         nodeIntegration: false,
-        contextIsolation: true
+        contextIsolation: true,
+        // 开发环境打开开发者工具
+        devTools: is.dev ? true : false
       }
     }
 
@@ -185,7 +187,7 @@ export class WindowManager {
     this.setupWindowEvents(key, window, config)
 
     // 加载页面
-    this.loadPage(window, config.route)
+    this.loadPage(window, config.route,config.params)
 
     // 存储窗口引用
     this.windows.set(key, window)
@@ -208,6 +210,8 @@ export class WindowManager {
         window.show()
       }
 
+    })
+
       // 发送参数给渲染进程
       if (config.params) {
         window.webContents.send('window-params', {
@@ -215,8 +219,6 @@ export class WindowManager {
           params: config.params
         })
       }
-    })
-
     // 窗口关闭时
     window.on('closed', () => {
       // 从 Map 中移除窗口引用
@@ -235,11 +237,12 @@ export class WindowManager {
   /**
    * 加载页面
    */
-  private loadPage(window: BrowserWindow, route: string): void {
+  private loadPage(window: BrowserWindow, route: string,params:any): void {
+    const paramData = params ? "?urlParamData=" + JSON.stringify(params) : "";
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      window.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#${route}`)
+      window.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#${route}${paramData}`)
     } else {
-      window.loadFile(join(__dirname, '../renderer/index.html'), { hash: route })
+      window.loadFile(join(__dirname, '../renderer/index.html'), { hash: route+paramData })
     }
   }
 

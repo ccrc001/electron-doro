@@ -1,5 +1,4 @@
 import { app, Tray, Menu, BrowserWindow } from 'electron'
-// import { join } from 'path'
 // 定义应用图标路径
 import icon from '../../../resources/icon.png?asset'
 
@@ -10,13 +9,13 @@ export default function createTray(mainWindow: BrowserWindow): void {
     {
       label: '显示',
       click: () => {
-        mainWindow?.show() // 使用可选链操作符
+        mainWindow?.show()
       }
     },
     {
       label: '隐藏',
       click: () => {
-        mainWindow?.hide() // 使用可选链操作符
+        mainWindow?.hide()
       }
     },
     { type: 'separator' },

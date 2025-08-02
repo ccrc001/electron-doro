@@ -26,10 +26,15 @@ const loading = ref(false)
 
 // 搜索关键词
 const searchKey = ref('')
-const selectedUserId = ref<number | null>(null)
+const selectedUserId = ref<string | number | undefined>(undefined)
 
 // 计算筛选后的文章列表
 const filteredPosts = computed(() => {
+  // 安全检查：确保 postList.value 是数组
+  if (!Array.isArray(postList.value)) {
+    return []
+  }
+
   let filtered = postList.value
 
   // 按标题搜索
@@ -51,6 +56,10 @@ const filteredPosts = computed(() => {
 
 // 获取所有用户ID列表（用于筛选）
 const userIds = computed(() => {
+  // 安全检查：确保 postList.value 是数组
+  if (!Array.isArray(postList.value)) {
+    return []
+  }
   const ids = [...new Set(postList.value.map((post) => post.userId))]
   return ids.sort((a, b) => a - b)
 })
@@ -68,7 +77,7 @@ const editPost = (post: Post) => {
 // 清空筛选
 const clearFilters = () => {
   searchKey.value = ''
-  selectedUserId.value = null
+  selectedUserId.value = undefined
 }
 
 // 获取文章列表数据
@@ -79,16 +88,22 @@ const fetchPostList = async () => {
     const response = await getPosts()
     console.log('✅ 获取文章列表成功:', response)
 
-    // 检查响应数据结构
-    if (response) {
+    // 检查响应数据结构并确保是数组
+    if (Array.isArray(response)) {
       postList.value = response
+      ElMessage.success(`文章列表加载成功，共 ${postList.value.length} 篇文章`)
+    } else if (response && Array.isArray(response.data)) {
+      // 如果响应是包装对象，尝试获取 data 字段
+      postList.value = response.data
       ElMessage.success(`文章列表加载成功，共 ${postList.value.length} 篇文章`)
     } else {
       console.warn('⚠️ 响应数据格式异常:', response)
-      ElMessage.warning('文章列表数据格式异常')
+      postList.value = [] // 确保设置为空数组
+      ElMessage.warning('文章列表数据格式异常，已设置为空列表')
     }
   } catch (error) {
     console.error('❌ 获取文章列表失败:', error)
+    postList.value = [] // 确保在错误时设置为空数组
     ElMessage.error('获取文章列表失败')
   } finally {
     loading.value = false

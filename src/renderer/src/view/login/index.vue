@@ -2,10 +2,13 @@
 import { ref, onMounted, defineOptions } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@stores/useUserStore'
-import { getUserInfo, loginByJson, getUserLogin } from '@api/login'
-import { getParamFromUrl } from '@utils/electronUtils'
+import { useMenuStore } from '@stores/useMenuStore'
+import { getUserLogin } from '@api/login'
+import { getParamFromUrl, onWindowParams } from '@utils/electronUtils'
 import { ElMessage } from 'element-plus'
 import { User, Lock } from '@element-plus/icons-vue'
+// import { addDynamicRoutes } from '@router/index'
+
 // 定义组件名称，用于keep-alive缓存
 defineOptions({
   name: 'Login'
@@ -13,7 +16,7 @@ defineOptions({
 
 const router = useRouter()
 const userStore = useUserStore()
-
+const menuStore = useMenuStore()
 // 表单数据
 const loginForm = ref({
   username: '',
@@ -39,7 +42,7 @@ const loginFormRef = ref()
 const showPassword = ref(false)
 
 // 登录处理
-const handleLogin = async () => {
+const handleLogin = async (): Promise<void> => {
   if (!loginFormRef.value) return
 
   try {
@@ -50,15 +53,18 @@ const handleLogin = async () => {
 
     // 模拟登录延迟
     // await new Promise((resolve) => setTimeout(resolve, 1000))
-    // const res = await loginByJson(loginForm.value)
     const res = await getUserLogin(loginForm.value)
+
     if (res.code === 200 && res.data) {
-      console.log(res)
 
       await userStore.setToken(res.data.token)
       // 获取用户信息
-      // await userStore.getUserInfo()
+      await userStore.getInfo()
+      // 获取菜单
+      await menuStore.getMenuList(userStore.rolePerm)
 
+      // 添加动态路由
+      // await addDynamicRoutes()
       ElMessage.success('登录成功！')
       router.push('/root')
     }
@@ -71,7 +77,7 @@ const handleLogin = async () => {
 }
 
 // 快速登录
-const quickLogin = (type: 'admin' | 'user') => {
+const quickLogin = (type: 'admin' | 'user'): void => {
   if (type === 'admin') {
     loginForm.value.username = 'admin'
     loginForm.value.password = '123456'
@@ -88,8 +94,16 @@ const resetForm = () => {
   }
 }
 
-onMounted(() => {
+onMounted(async() => {
+  
+ await onWindowParams((data) => {
+ console.log('onWindowParams',data);
+ 
+    ElMessage.success(data.params.message)
+  })
   const paramData = getParamFromUrl()
+  console.log('getParamFromUrl',paramData)
+  
   if (paramData) {
     ElMessage.success(paramData.message)
   }

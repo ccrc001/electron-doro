@@ -28,7 +28,6 @@ declare module '@api/login' {
   export function getUserInfo(): Promise<AxiosResponse<UserInfo>>
   export function getMenu(rolePerm: string): Promise<AxiosResponse>
   export function getInfo(): Promise<AxiosResponse>
-  export function loginByJson(data: LoginParams): Promise<AxiosResponse<UserInfo>>
   export function captchaImage(params: string): Promise<AxiosResponse<ArrayBuffer>>
   export function loginCaptcha(params): Promise<AxiosResponse>
   export function loginByMobile(data): Promise<AxiosResponse>

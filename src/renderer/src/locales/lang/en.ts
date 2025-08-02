@@ -6,7 +6,8 @@ export default {
     settings: 'Settings',
     demo: 'Debug',
     mock: 'Mock Test',
-    dailyFood: 'Daily Food'
+    dailyFood: 'Daily Food',
+    douyin: 'Douyin'
   },
   login: {
     confirmCancelText: 'cancel',

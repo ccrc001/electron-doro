@@ -84,9 +84,10 @@ onErrorCaptured((error) => {
 </template>
 
 <script setup lang="ts">
-import AppDock from './components/AppDock.vue'
+// import AppDock from './components/AppDock.vue'
 import { useLoadingStore } from '@stores/useLoadingStore'
-import { onErrorCaptured } from 'vue'
+import { onErrorCaptured, onMounted } from 'vue'
+// import { addDynamicRoutes } from './router'
 
 const loadingStore = useLoadingStore()
 
@@ -94,6 +95,10 @@ const loadingStore = useLoadingStore()
 onErrorCaptured((error) => {
   console.error('Async component error:', error)
   return false // 阻止错误继续传播
+})
+onMounted(async () => {
+  console.log('app mounted')
+  // await addDynamicRoutes()
 })
 </script>
 

@@ -93,7 +93,7 @@ const downloadProgress = ref({
 
 // 计算属性
 const updateIcon = computed(() => {
-  if (isDownloading.value) return Download
+  if (isDownloading.value) return Refresh
   if (updateCompleted.value) return Check
   if (updateStatus.value.includes('错误')) return Warning
   return Refresh
@@ -140,7 +140,6 @@ const getCurrentVersion = async (): Promise<void> => {
   try {
     currentVersion.value = await window.api.updater.getAppVersion()
     // console.log(currentVersion.value)
-    // await checkForUpdates()
   } catch (error) {
     console.error('获取版本信息失败:', error)
   }
@@ -152,11 +151,13 @@ const checkForUpdates = async (): Promise<void> => {
 
   try {
     const result = await window.api.updater.checkForUpdates()
-    if (result) {
-      updateStatus.value = '检查更新完成'
-    } else {
-      updateStatus.value = '当前已是最新版本'
-    }
+    console.log(result);
+    
+    // if (result) {
+    //   updateStatus.value = '检查更新完成'
+    // } else {
+    //   updateStatus.value = '当前已是最新版本'
+    // }
   } catch (error) {
     updateStatus.value = '检查更新失败'
     ElMessage.error('检查更新失败')
@@ -177,6 +178,8 @@ const formatBytes = (bytes: number): string => {
 // 监听更新状态
 const handleUpdateStatus = (status: string): void => {
   updateStatus.value = status
+  console.log(status);
+  
 
   if (status.includes('下载进度')) {
     isDownloading.value = true

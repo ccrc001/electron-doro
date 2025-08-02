@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { getInfo } from '@api/login'
+import { getUserInfo } from '@api/login'
 import { ref } from 'vue'
-
+import { cacheUtils } from '@utils/cacheUtils'
 export const useUserStore = defineStore(
   'useUserStore',
   () => {
@@ -10,25 +10,30 @@ export const useUserStore = defineStore(
     const permissions = ref('*:*:*')
 
     async function setToken(token: string): Promise<void> {
-      localStorage.setItem('TOKEN', token)
+      cacheUtils.set('TOKEN', token)
     }
 
     async function getToken(): Promise<string> {
-      return localStorage.getItem('TOKEN') || ''
+      return cacheUtils.get('TOKEN') || ''
     }
 
     async function removeToken(): Promise<void> {
-      localStorage.removeItem('TOKEN')
+      cacheUtils.remove('TOKEN')
     }
 
-    async function getUserInfo(): Promise<void> {
-      const res = await getInfo()
+    async function getInfo(): Promise<void> {
+      const res = await getUserInfo()
+      // console.log(res)
+
       if (res.code == '200') {
         userInfo.value = res.data
-        rolePerm.value = res.data.roles[0].rolePerm || ''
+        rolePerm.value = res.data.data.roles[0] || ''
       } else {
         userInfo.value = {}
       }
+    }
+    function getRolePerm(): string {
+      return rolePerm.value
     }
 
     function getPermissions(): string {
@@ -42,7 +47,8 @@ export const useUserStore = defineStore(
       setToken,
       getToken,
       removeToken,
-      getUserInfo,
+      getInfo,
+      getRolePerm,
       getPermissions
     }
   },

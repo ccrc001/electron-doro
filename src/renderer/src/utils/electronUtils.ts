@@ -14,7 +14,7 @@ const urlParamKey = 'urlParamData='
 /**
  * 返回url传输的对象
  */
-export const getParamFromUrl = function (): object | null {
+export const getParamFromUrl = function (): any {
   const url = decodeURIComponent(document.location.href)
   const index = url.indexOf(urlParamKey)
   if (index >= 0) {
